@@ -1,0 +1,2107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Bull and The Moon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #121212;
+      --moon: #F5F5F7;
+      --bull: #FF3E3E;
+      --accent: #404040;
+      --font-title: 'Syne', sans-serif;
+      --font-body: 'JetBrains Mono', monospace;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--moon);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 2px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 4rem;
+      background: transparent;
+    }
+
+    nav::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 4rem;
+      right: 4rem;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    .nav-logo {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.08em;
+      color: var(--moon);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--bull);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      color: var(--moon);
+      text-decoration: none;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      transition: opacity 0.3s, color 0.3s;
+    }
+
+    .nav-links a:hover {
+      opacity: 1;
+      color: var(--bull);
+    }
+
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--accent);
+      overflow: hidden;
+      margin-left: 2rem;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      color: var(--moon);
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      padding: 0.35rem 0.65rem;
+      opacity: 0.4;
+      transition: opacity 0.2s, background 0.2s, color 0.2s;
+      cursor: pointer;
+    }
+
+    .lang-btn.active {
+      background: var(--bull);
+      color: #000;
+      opacity: 1;
+    }
+
+    .lang-btn:hover:not(.active) {
+      opacity: 0.8;
+    }
+
+    /* HERO */
+    #hero {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(64, 64, 64, 0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(64, 64, 64, 0.15) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-side {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 4rem;
+      padding-bottom: 6rem;
+      overflow: hidden;
+      transition: flex 0.8s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .hero-side:hover {
+      flex: 1.15;
+    }
+
+    .hero-side-moon {
+      border-right: 1px solid var(--accent);
+    }
+
+    .hero-side-moon::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      left: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(245, 245, 247, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+      animation: moonPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes moonPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: .6
+      }
+
+      50% {
+        transform: scale(1.1);
+        opacity: 1
+      }
+    }
+
+    .hero-side-bull::before {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      right: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(255, 62, 62, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+      animation: bullPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes bullPulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: .7
+      }
+
+      50% {
+        transform: scale(1.08);
+        opacity: 1
+      }
+    }
+
+    .hero-tag {
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0.5;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-tag-moon {
+      color: var(--moon);
+    }
+
+    .hero-tag-bull {
+      color: var(--bull);
+    }
+
+    .hero-title {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title-moon {
+      color: var(--moon);
+    }
+
+    .hero-title-bull {
+      color: var(--bull);
+      text-shadow: 0 0 30px rgba(255, 62, 62, 0.5);
+    }
+
+    .hero-desc {
+      font-size: 0.75rem;
+      line-height: 1.8;
+      opacity: 0.5;
+      max-width: 340px;
+      position: relative;
+      z-index: 1;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-ghost,
+    .btn-bull,
+    button {
+      cursor: pointer;
+    }
+
+    .btn-ghost {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      border: 1px solid rgba(245, 245, 247, 0.4);
+      color: var(--moon);
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      transition: border-color 0.3s, background 0.3s, color 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--moon);
+      background: rgba(245, 245, 247, 0.08);
+    }
+
+    .btn-bull {
+      display: inline-block;
+      padding: 0.85rem 2rem;
+      background: var(--bull);
+      color: #000;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      transition: background 0.15s, box-shadow 0.15s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-bull:hover {
+      background: #ff5555;
+      box-shadow: 0 0 20px rgba(255, 62, 62, 0.6), 0 0 40px rgba(255, 62, 62, 0.3);
+    }
+
+    .hero-center {
+      position: absolute;
+      top: 8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      pointer-events: none;
+    }
+
+    .hero-brand-name {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--moon);
+      text-align: center;
+      opacity: 0.9;
+    }
+
+    .hero-slogan {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      letter-spacing: 0.12em;
+      color: var(--moon);
+      opacity: 0.4;
+      text-align: center;
+      max-width: 260px;
+      line-height: 1.6;
+    }
+
+    .hero-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--accent) 20%, var(--accent) 80%, transparent);
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .scroll-hint span {
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.3;
+      color: var(--moon);
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scrollAnim 1.8s ease-in-out infinite;
+    }
+
+    @keyframes scrollAnim {
+      0% {
+        transform: scaleY(0);
+        transform-origin: top;
+        opacity: 1
+      }
+
+      50% {
+        transform: scaleY(1);
+        transform-origin: top;
+        opacity: 1
+      }
+
+      51% {
+        transform: scaleY(1);
+        transform-origin: bottom
+      }
+
+      100% {
+        transform: scaleY(0);
+        transform-origin: bottom;
+        opacity: .3
+      }
+    }
+
+    section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.35;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 30px;
+      height: 1px;
+      background: currentColor;
+    }
+
+    /* MOON SECTION */
+    #moon-section {
+      padding: 8rem 4rem;
+      background: var(--bg);
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto 1fr;
+      gap: 0;
+      align-items: start;
+    }
+
+    #moon-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 50% at 20% 30%, rgba(245, 245, 247, 0.03) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .point-cloud {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 55%;
+      height: 100%;
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .moon-content {
+      grid-column: 1;
+      grid-row: 1/3;
+      padding-right: 6rem;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 80vh;
+    }
+
+    .moon-content .section-label {
+      color: var(--moon);
+    }
+
+    .moon-content h2 {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+      color: var(--moon);
+    }
+
+    .moon-content p {
+      font-size: 0.78rem;
+      line-height: 2;
+      opacity: 0.55;
+      max-width: 480px;
+      margin-bottom: 3rem;
+    }
+
+    .moon-services {
+      grid-column: 2;
+      grid-row: 1/3;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0;
+      padding-top: 2rem;
+    }
+
+    .service-item {
+      border-top: 1px solid var(--accent);
+      padding: 2rem 0;
+      display: grid;
+      grid-template-columns: 2.5rem 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+      transition: background 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-item:last-child {
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .service-item::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0;
+      background: rgba(245, 245, 247, 0.02);
+      transition: width 0.4s ease;
+    }
+
+    .service-item:hover::after {
+      width: 100%;
+    }
+
+    .service-num {
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      opacity: 0.3;
+      padding-top: 0.15rem;
+      font-family: var(--font-body);
+    }
+
+    .service-name {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-desc {
+      font-size: 0.7rem;
+      opacity: 0.4;
+      line-height: 1.7;
+    }
+
+    .service-arrow {
+      font-size: 1rem;
+      opacity: 0.2;
+      padding-top: 0.1rem;
+      transition: opacity 0.3s, transform 0.3s;
+      color: var(--moon);
+    }
+
+    .service-item:hover .service-arrow {
+      opacity: 1;
+      transform: translateX(4px);
+    }
+
+    /* BULL SECTION */
+    #bull-section {
+      padding: 8rem 4rem;
+      background: #0e0e0e;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    #bull-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 62, 62, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 62, 62, 0.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    #bull-section::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(255, 62, 62, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .bull-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 80vh;
+      align-items: center;
+    }
+
+    .bull-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .bull-left .section-label {
+      color: var(--bull);
+    }
+
+    .bull-left h2 {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+      color: var(--bull);
+      text-shadow: 0 0 40px rgba(255, 62, 62, 0.3);
+    }
+
+    .bull-left p {
+      font-size: 0.78rem;
+      line-height: 2;
+      opacity: 0.5;
+      max-width: 420px;
+      margin-bottom: 3rem;
+    }
+
+    .bull-right {
+      padding-left: 4rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .tech-card {
+      border: 1px solid var(--accent);
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+      background: rgba(255, 62, 62, 0.02);
+    }
+
+    .tech-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: var(--bull);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    .tech-card:hover {
+      border-color: rgba(255, 62, 62, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .tech-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .tech-card-icon {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      opacity: 0.7;
+      color: var(--bull);
+    }
+
+    .tech-card-title {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .tech-card-text {
+      font-size: 0.65rem;
+      opacity: 0.4;
+      line-height: 1.8;
+    }
+
+    .tech-card::after {
+      content: '';
+      position: absolute;
+      top: -100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(255, 62, 62, 0.04), transparent);
+      transition: top 0.5s ease;
+      pointer-events: none;
+    }
+
+    .tech-card:hover::after {
+      top: 100%;
+    }
+
+    /* CASES */
+    #cases {
+      padding: 8rem 4rem;
+      background: var(--bg);
+      position: relative;
+    }
+
+    #cases::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(rgba(64, 64, 64, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(64, 64, 64, 0.08) 1px, transparent 1px);
+      background-size: 80px 80px;
+      pointer-events: none;
+    }
+
+    .cases-header {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .cases-header h2 {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      max-width: 500px;
+    }
+
+    .cases-header h2 em {
+      font-style: normal;
+      color: var(--bull);
+    }
+
+    .cases-sub {
+      font-size: 0.7rem;
+      opacity: 0.4;
+      max-width: 280px;
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    .cases-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 0.6fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1.5px;
+      position: relative;
+      z-index: 1;
+      background: var(--accent);
+    }
+
+    .case-card {
+      background: var(--bg);
+      padding: 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.4s;
+    }
+
+    .case-card.featured {
+      grid-row: 1/3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      min-height: 480px;
+      background: #0e0e0e;
+    }
+
+    .case-card.featured::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, #0e0e0e, #121212);
+      transition: opacity 0.4s;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .case-card.featured>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    .case-card.featured:hover::before {
+      opacity: 0;
+    }
+
+    .case-card:hover {
+      background: #161616;
+    }
+
+    .case-card.featured:hover {
+      background: #161616;
+    }
+
+    .case-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid;
+      margin-bottom: 1.5rem;
+      width: fit-content;
+    }
+
+    .case-pill.moon {
+      border-color: rgba(245, 245, 247, 0.3);
+      color: var(--moon);
+    }
+
+    .case-pill.bull {
+      border-color: rgba(255, 62, 62, 0.4);
+      color: var(--bull);
+    }
+
+    .case-pill.both {
+      border-color: var(--accent);
+      background: linear-gradient(90deg, rgba(245, 245, 247, 0.05), rgba(255, 62, 62, 0.05));
+      color: var(--moon);
+    }
+
+    .case-pill .dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .case-title {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 1.6rem;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .case-desc {
+      font-size: 0.68rem;
+      opacity: 0.4;
+      line-height: 1.8;
+    }
+
+    .case-bg-num {
+      position: absolute;
+      top: -2rem;
+      right: 2rem;
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 8rem;
+      opacity: 0.03;
+      color: var(--moon);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .case-card.bull-case .case-bg-num {
+      color: var(--bull);
+    }
+
+    /* ABOUT US */
+    #about {
+      background: #0a0a0a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #about::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(255, 62, 62, 0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 62, 62, 0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+    }
+
+    .about-manifesto {
+      padding: 8rem 4rem 6rem;
+      position: relative;
+      z-index: 1;
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .about-manifesto .section-label {
+      color: var(--bull);
+      margin-bottom: 2.5rem;
+    }
+
+    .about-manifesto-title {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      max-width: 820px;
+      margin-bottom: 2.5rem;
+    }
+
+    .about-manifesto-title em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(245, 245, 247, 0.4);
+    }
+
+    .about-manifesto-body {
+      font-size: 0.78rem;
+      line-height: 2;
+      opacity: 0.5;
+      max-width: 560px;
+    }
+
+    .about-dual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-side {
+      padding: 5rem 4rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.5s;
+    }
+
+    .about-side-moon {
+      border-right: 1px solid var(--accent);
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .about-side-bull {
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .about-side-moon::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(245, 245, 247, 0.025);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+
+    .about-side-moon:hover::after {
+      opacity: 1;
+    }
+
+    .about-side-bull::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 62, 62, 0.03);
+      opacity: 0;
+      transition: opacity 0.5s;
+      pointer-events: none;
+    }
+
+    .about-side-bull:hover::after {
+      opacity: 1;
+    }
+
+    .about-side-bull .scan-line {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 62, 62, 0.15), transparent);
+      top: 0;
+      pointer-events: none;
+      animation: scanDown 5s linear infinite;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .about-side-bull:hover .scan-line {
+      opacity: 1;
+    }
+
+    @keyframes scanDown {
+      0% {
+        top: 0%
+      }
+
+      100% {
+        top: 100%
+      }
+    }
+
+    .about-side-num {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      opacity: 0.3;
+      margin-bottom: 2rem;
+      display: block;
+      font-family: var(--font-body);
+    }
+
+    .about-side-heading {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-side-moon .about-side-heading {
+      color: var(--moon);
+    }
+
+    .about-side-bull .about-side-heading {
+      color: var(--bull);
+      text-shadow: 0 0 30px rgba(255, 62, 62, 0.3);
+    }
+
+    .about-side-desc {
+      font-size: 0.72rem;
+      line-height: 1.9;
+      opacity: 0.45;
+      max-width: 380px;
+      margin-bottom: 3rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-caps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-caps li {
+      padding-left: 1.5rem;
+      position: relative;
+      transition: opacity 0.3s;
+    }
+
+    .about-caps li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+    }
+
+    .about-side-moon .about-caps li::before {
+      background: var(--moon);
+    }
+
+    .about-side-bull .about-caps li::before {
+      background: var(--bull);
+    }
+
+    .about-caps li:hover {
+      opacity: 1 !important;
+    }
+
+    .about-caps .cap-title {
+      font-family: var(--font-title);
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .about-caps .cap-desc {
+      font-size: 0.65rem;
+      opacity: 0.4;
+      line-height: 1.7;
+    }
+
+    .about-closing {
+      padding: 7rem 4rem;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.01);
+    }
+
+    .about-closing::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 700px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(255, 62, 62, 0.04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-closing-title {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: 2.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-closing-title em {
+      font-style: normal;
+      color: var(--bull);
+    }
+
+    .about-closing-body {
+      font-size: 0.78rem;
+      line-height: 2;
+      opacity: 0.45;
+      max-width: 580px;
+      margin: 0 auto 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-stats {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border: 1px solid var(--accent);
+      max-width: 720px;
+      margin: 0 auto 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-stat {
+      flex: 1;
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--accent);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s;
+    }
+
+    .about-stat:last-child {
+      border-right: none;
+    }
+
+    .about-stat:hover {
+      background: rgba(255, 62, 62, 0.03);
+    }
+
+    .about-stat-value {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 2.5rem;
+      color: var(--bull);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.6rem;
+    }
+
+    .about-stat-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.35;
+    }
+
+    .about-closing-tagline {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-style: italic;
+      opacity: 0.8;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-closing-sub {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--bull);
+      opacity: 0.7;
+      margin-bottom: 0.75rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* CONTACT */
+    #contact {
+      padding: 8rem 4rem;
+      background: #0a0a0a;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(255, 62, 62, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .contact-inner {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .contact-left h2 {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+      margin-bottom: 2rem;
+    }
+
+    .contact-left h2 em {
+      font-style: normal;
+      color: var(--bull);
+    }
+
+    .contact-left p {
+      font-size: 0.75rem;
+      opacity: 0.45;
+      line-height: 1.9;
+      max-width: 420px;
+      margin-bottom: 3rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.7rem;
+      color: var(--moon);
+      text-decoration: none;
+      opacity: 0.4;
+      letter-spacing: 0.05em;
+      transition: opacity 0.3s;
+    }
+
+    .contact-link:hover {
+      opacity: 1;
+    }
+
+    .contact-link .link-icon {
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    .contact-link:hover .link-icon {
+      border-color: var(--bull);
+      background: rgba(255, 62, 62, 0.08);
+      color: var(--bull);
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .form-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      opacity: 0.35;
+    }
+
+    .form-input {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--accent);
+      color: var(--moon);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      padding: 0.75rem 0;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: var(--moon);
+    }
+
+    .form-input::placeholder {
+      opacity: 0.2;
+      font-size: 0.75rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    footer {
+      padding: 2.5rem 4rem;
+      border-top: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg);
+    }
+
+    .footer-logo {
+      font-family: var(--font-title);
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--moon);
+    }
+
+    .footer-logo span {
+      color: var(--bull);
+    }
+
+    .footer-copy {
+      font-size: 0.6rem;
+      opacity: 0.25;
+      letter-spacing: 0.1em;
+    }
+
+    .footer-status {
+      font-size: 0.6rem;
+      opacity: 0.35;
+      letter-spacing: 0.12em;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--bull);
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .3
+      }
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.animate-ready {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .reveal.animate-ready.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 {
+      transition-delay: 0.1s;
+    }
+
+    .reveal-delay-2 {
+      transition-delay: 0.2s;
+    }
+
+    .reveal-delay-3 {
+      transition-delay: 0.3s;
+    }
+
+    .reveal-delay-4 {
+      transition-delay: 0.4s;
+    }
+
+    .ticker-bar {
+      background: var(--bull);
+      padding: 0.6rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      animation: ticker 25s linear infinite;
+      gap: 0;
+    }
+
+    .ticker-item {
+      font-family: var(--font-body);
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #000;
+      padding: 0 3rem;
+    }
+
+    .ticker-sep {
+      color: rgba(0, 0, 0, 0.4);
+      padding: 0 0.5rem;
+    }
+
+    @keyframes ticker {
+      0% {
+        transform: translateX(0)
+      }
+
+      100% {
+        transform: translateX(-50%)
+      }
+    }
+
+    @media (max-width: 900px) {
+      nav {
+        padding: 1.5rem 2rem;
+      }
+
+      nav::after {
+        left: 2rem;
+        right: 2rem;
+      }
+
+      #hero {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .hero-side {
+        padding: 2rem;
+        padding-bottom: 4rem;
+        min-height: 50vh;
+      }
+
+      .hero-side-moon {
+        border-right: none;
+        border-bottom: 1px solid var(--accent);
+      }
+
+      .hero-center {
+        display: none;
+      }
+
+      #moon-section,
+      .bull-inner,
+      .contact-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .moon-content {
+        padding-right: 0;
+      }
+
+      .bull-right {
+        padding-left: 0;
+      }
+
+      .cases-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .case-card.featured {
+        min-height: 300px;
+      }
+
+      .about-dual {
+        grid-template-columns: 1fr;
+      }
+
+      .about-side-moon {
+        border-right: none;
+      }
+
+      .about-manifesto {
+        padding: 6rem 2rem 4rem;
+      }
+
+      .about-side {
+        padding: 4rem 2rem;
+      }
+
+      .about-closing {
+        padding: 5rem 2rem;
+      }
+
+      .about-stats {
+        flex-direction: column;
+      }
+
+      .about-stat {
+        border-right: none;
+        border-bottom: 1px solid var(--accent);
+      }
+
+      .about-stat:last-child {
+        border-bottom: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="nav-logo">THE BULL <span>&</span> THE MOON</a>
+    <ul class="nav-links">
+      <li><a href="#moon-section" data-en="Moon" data-es="Luna">Moon</a></li>
+      <li><a href="#bull-section" data-en="Bull" data-es="Toro">Bull</a></li>
+      <li><a href="#cases" data-en="Projects" data-es="Proyectos">Projects</a></li>
+      <li><a href="#about" data-en="About" data-es="Nosotros">About</a></li>
+      <li><a href="#contact" data-en="Contact" data-es="Contacto">Contact</a></li>
+    </ul>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-side hero-side-moon">
+      <div class="hero-tag hero-tag-moon" data-en="&#9702; The Moon &mdash; Vision"
+        data-es="&#9702; The Moon &mdash; Visión">&#9702; The Moon &mdash; Vision</div>
+      <h1 class="hero-title hero-title-moon" data-en="We design<br/>the vision." data-es="Diseñamos<br/>la visión.">We
+        design<br />the vision.</h1>
+      <p class="hero-desc"
+        data-en="State of the art in AI. Strategic consulting, conceptual creativity and cutting-edge analysis."
+        data-es="El estado del arte en IA. Consultoría estratégica, creatividad conceptual y análisis de vanguardia.">
+        State of the art in AI. Strategic consulting, conceptual creativity and cutting-edge analysis.</p>
+      <a href="#moon-section" class="btn-ghost" data-en="Explore the vision &rarr;"
+        data-es="Explorar la visión &rarr;">Explore the vision &rarr;</a>
+    </div>
+    <div class="hero-side hero-side-bull">
+      <div class="hero-tag hero-tag-bull" data-en="&#9670; The Bull &mdash; Execution"
+        data-es="&#9670; The Bull &mdash; Ejecución">&#9670; The Bull &mdash; Execution</div>
+      <h1 class="hero-title hero-title-bull" data-en="We build<br/>the reality." data-es="Construimos<br/>la realidad.">
+        We build<br />the reality.</h1>
+      <p class="hero-desc"
+        data-en="Computational power. High-performance software and hardware for solutions that scale."
+        data-es="Potencia computacional. Software y hardware de alto rendimiento para soluciones que escalan.">
+        Computational power. High-performance software and hardware for solutions that scale.</p>
+      <a href="#bull-section" class="btn-bull" data-en="Execute the build &rarr;"
+        data-es="Ejecutar el desarrollo &rarr;">Execute the build &rarr;</a>
+    </div>
+    <div class="hero-center">
+      <div class="hero-brand-name">The Bull &amp; The Moon</div>
+      <div class="hero-slogan" data-en="Where creativity dreams,<br/>technology executes."
+        data-es="Donde la creatividad sueña,<br/>la tecnología ejecuta.">Where creativity dreams,<br />technology
+        executes.</div>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="scroll-hint"><span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-bar">
+    <div class="ticker-track">
+      <span class="ticker-item" data-en="Artificial Intelligence" data-es="Inteligencia Artificial">Artificial
+        Intelligence</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="AI Consulting" data-es="Consultoría IA">AI Consulting</span><span
+        class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Product Development" data-es="Desarrollo de Producto">Product
+        Development</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Machine Learning" data-es="Machine Learning">Machine Learning</span><span
+        class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Strategic Vision" data-es="Visión Estratégica">Strategic Vision</span><span
+        class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Technical Execution" data-es="Ejecución Técnica">Technical
+        Execution</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Disruptive Innovation" data-es="Innovación Disruptiva">Disruptive
+        Innovation</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item">The Bull &amp; The Moon</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Artificial Intelligence" data-es="Inteligencia Artificial">Artificial
+        Intelligence</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="AI Consulting" data-es="Consultoría IA">AI Consulting</span><span
+        class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Product Development" data-es="Desarrollo de Producto">Product
+        Development</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Machine Learning" data-es="Machine Learning">Machine Learning</span><span
+        class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Strategic Vision" data-es="Visión Estratégica">Strategic Vision</span><span
+        class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Technical Execution" data-es="Ejecución Técnica">Technical
+        Execution</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item" data-en="Disruptive Innovation" data-es="Innovación Disruptiva">Disruptive
+        Innovation</span><span class="ticker-sep">&#9670;</span>
+      <span class="ticker-item">The Bull &amp; The Moon</span><span class="ticker-sep">&#9670;</span>
+    </div>
+  </div>
+
+  <!-- MOON SECTION -->
+  <section id="moon-section">
+    <svg class="point-cloud" viewBox="0 0 500 600" fill="none">
+      <circle cx="50" cy="80" r="1.5" fill="#F5F5F7" />
+      <circle cx="120" cy="40" r="1" fill="#F5F5F7" />
+      <circle cx="200" cy="100" r="2" fill="#F5F5F7" />
+      <circle cx="280" cy="60" r="1" fill="#F5F5F7" />
+      <circle cx="350" cy="130" r="1.5" fill="#F5F5F7" />
+      <circle cx="420" cy="50" r="1" fill="#F5F5F7" />
+      <circle cx="80" cy="180" r="1" fill="#F5F5F7" />
+      <circle cx="160" cy="220" r="2" fill="#F5F5F7" />
+      <circle cx="240" cy="160" r="1.5" fill="#F5F5F7" />
+      <circle cx="320" cy="200" r="1" fill="#F5F5F7" />
+      <circle cx="400" cy="170" r="2" fill="#F5F5F7" />
+      <circle cx="460" cy="240" r="1" fill="#F5F5F7" />
+      <circle cx="30" cy="300" r="1.5" fill="#F5F5F7" />
+      <circle cx="100" cy="350" r="1" fill="#F5F5F7" />
+      <circle cx="180" cy="310" r="2" fill="#F5F5F7" />
+      <circle cx="260" cy="380" r="1" fill="#F5F5F7" />
+      <circle cx="340" cy="320" r="1.5" fill="#F5F5F7" />
+      <circle cx="420" cy="360" r="1" fill="#F5F5F7" />
+      <circle cx="480" cy="290" r="2" fill="#F5F5F7" />
+      <circle cx="60" cy="450" r="1" fill="#F5F5F7" />
+      <circle cx="140" cy="490" r="1.5" fill="#F5F5F7" />
+      <circle cx="220" cy="440" r="1" fill="#F5F5F7" />
+      <circle cx="300" cy="510" r="2" fill="#F5F5F7" />
+      <circle cx="380" cy="460" r="1" fill="#F5F5F7" />
+      <circle cx="450" cy="520" r="1.5" fill="#F5F5F7" />
+      <line x1="50" y1="80" x2="120" y2="40" stroke="#F5F5F7" stroke-width="0.3" opacity="0.3" />
+      <line x1="120" y1="40" x2="200" y2="100" stroke="#F5F5F7" stroke-width="0.3" opacity="0.3" />
+      <line x1="200" y1="100" x2="280" y2="60" stroke="#F5F5F7" stroke-width="0.3" opacity="0.3" />
+      <line x1="280" y1="60" x2="350" y2="130" stroke="#F5F5F7" stroke-width="0.3" opacity="0.3" />
+      <line x1="160" y1="220" x2="240" y2="160" stroke="#F5F5F7" stroke-width="0.3" opacity="0.3" />
+      <line x1="240" y1="160" x2="320" y2="200" stroke="#F5F5F7" stroke-width="0.3" opacity="0.3" />
+      <line x1="180" y1="310" x2="260" y2="380" stroke="#F5F5F7" stroke-width="0.3" opacity="0.3" />
+      <line x1="300" y1="510" x2="380" y2="460" stroke="#F5F5F7" stroke-width="0.3" opacity="0.3" />
+    </svg>
+    <div class="moon-content reveal">
+      <div class="section-label" data-en="01 &mdash; The Moon" data-es="01 &mdash; The Moon">01 &mdash; The Moon</div>
+      <h2 data-en="State of the<br/>art in AI." data-es="El estado<br/>del arte<br/>en IA.">State of the<br />art in AI.
+      </h2>
+      <p data-en="We design the strategic vision that transforms ideas into business architectures. Deep analysis, state-of-the-art research and conceptual creativity at the service of disruptive innovation."
+        data-es="Diseñamos la visión estratégica que transforma ideas en arquitecturas de negocio. Análisis profundo, investigación del estado de la técnica y creatividad conceptual al servicio de la innovación disruptiva.">
+        We design the strategic vision that transforms ideas into business architectures. Deep analysis,
+        state-of-the-art research and conceptual creativity at the service of disruptive innovation.</p>
+      <a href="#contact" class="btn-ghost" data-en="Start consulting &rarr;" data-es="Iniciar consultoría &rarr;">Start
+        consulting &rarr;</a>
+    </div>
+    <div class="moon-services reveal reveal-delay-2">
+      <div class="service-item"><span class="service-num">01</span>
+        <div>
+          <div class="service-name" data-en="Strategic AI Consulting" data-es="Consultoría Estratégica IA">Strategic AI
+            Consulting</div>
+          <div class="service-desc"
+            data-en="State-of-the-art analysis, opportunity identification and technology roadmap design."
+            data-es="Análisis del estado del arte, identificación de oportunidades y diseño de hoja de ruta tecnológica.">
+            State-of-the-art analysis, opportunity identification and technology roadmap design.</div>
+        </div>
+      </div>
+      <div class="service-item"><span class="service-num">02</span>
+        <div>
+          <div class="service-name" data-en="Research &amp; Prototyping" data-es="Investigación &amp; Prototipado">
+            Research &amp; Prototyping</div>
+          <div class="service-desc"
+            data-en="Conceptual model exploration, benchmarking and technical hypothesis validation."
+            data-es="Exploración conceptual de modelos, benchmarking y validación de hipótesis técnicas.">Conceptual
+            model exploration, benchmarking and technical hypothesis validation.</div>
+        </div>
+      </div>
+      <div class="service-item"><span class="service-num">03</span>
+        <div>
+          <div class="service-name" data-en="AI Product Design" data-es="Diseño de Producto IA">AI Product Design</div>
+          <div class="service-desc"
+            data-en="Functional architecture, user experience and technical scope definition with creative vision."
+            data-es="Arquitectura funcional, experiencia de usuario y definición de alcance técnico con visión creativa.">
+            Functional architecture, user experience and technical scope definition with creative vision.</div>
+        </div>
+      </div>
+      <div class="service-item"><span class="service-num">04</span>
+        <div>
+          <div class="service-name" data-en="Systems Audit" data-es="Auditoría de Sistemas">Systems Audit</div>
+          <div class="service-desc"
+            data-en="Evaluation of existing infrastructures and identification of AI improvement vectors."
+            data-es="Evaluación de infraestructuras existentes e identificación de vectores de mejora con IA.">
+            Evaluation of existing infrastructures and identification of AI improvement vectors.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BULL SECTION -->
+  <section id="bull-section">
+    <div class="bull-inner">
+      <div class="bull-left reveal">
+        <div class="section-label" data-en="02 &mdash; The Bull" data-es="02 &mdash; The Bull">02 &mdash; The Bull</div>
+        <h2 data-en="Computational<br/>power." data-es="Potencia<br/>computacional.">Computational<br />power.</h2>
+        <p data-en="We build the reality. From production ML models to high-performance embedded systems. Code that scales, architectures that hold, solutions that work."
+          data-es="Construimos la realidad. Desde modelos de ML de producción hasta sistemas embebidos de alto rendimiento. Código que escala, arquitecturas que resisten, soluciones que funcionan.">
+          We build the reality. From production ML models to high-performance embedded systems. Code that scales,
+          architectures that hold, solutions that work.</p>
+        <a href="#contact" class="btn-bull" data-en="Execute project &rarr;" data-es="Ejecutar proyecto &rarr;">Execute
+          project &rarr;</a>
+      </div>
+      <div class="bull-right reveal reveal-delay-2">
+        <div class="tech-card">
+          <div class="tech-card-icon">&#9670;</div>
+          <div class="tech-card-title" data-en="ML &amp; Deep Learning" data-es="ML &amp; Deep Learning">ML &amp; Deep
+            Learning</div>
+          <div class="tech-card-text"
+            data-en="Production model development. LLMs, Computer Vision, NLP and custom architectures."
+            data-es="Desarrollo de modelos en producción. LLMs, Computer Vision, NLP y arquitecturas custom.">Production
+            model development. LLMs, Computer Vision, NLP and custom architectures.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon">&#9670;</div>
+          <div class="tech-card-title" data-en="AI Infrastructure" data-es="Infraestructura IA">AI Infrastructure</div>
+          <div class="tech-card-text" data-en="Data pipelines, MLOps, scalable deployment and latency optimisation."
+            data-es="Pipelines de datos, MLOps, deployment escalable y optimización de latencia.">Data pipelines, MLOps,
+            scalable deployment and latency optimisation.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon">&#9670;</div>
+          <div class="tech-card-title" data-en="Advanced Hardware" data-es="Hardware Avanzado">Advanced Hardware</div>
+          <div class="tech-card-text" data-en="Embedded systems, FPGA, edge computing and on-device AI solutions."
+            data-es="Sistemas embebidos, FPGA, edge computing y soluciones de IA en dispositivo.">Embedded systems,
+            FPGA, edge computing and on-device AI solutions.</div>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-icon">&#9670;</div>
+          <div class="tech-card-title" data-en="High-Performance Software" data-es="Software de Alto Rendimiento">
+            High-Performance Software</div>
+          <div class="tech-card-text" data-en="Robust backends, high-throughput APIs and distributed systems."
+            data-es="Backends robustos, APIs de alto throughput y sistemas distribuidos.">Robust backends,
+            high-throughput APIs and distributed systems.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES SECTION -->
+  <section id="cases">
+    <div class="cases-header reveal">
+      <div>
+        <div class="section-label" style="color:var(--moon)" data-en="03 &mdash; Projects"
+          data-es="03 &mdash; Proyectos">03 &mdash; Projects</div>
+        <h2 data-en="Where the<br/><em>vision</em><br/>becomes real."
+          data-es="Donde la<br/><em>visión</em><br/>se hace real.">Where the<br /><em>vision</em><br />becomes real.
+        </h2>
+      </div>
+      <div class="cases-sub"
+        data-en="Cases where Moon designed the conceptual architecture and Bull materialised the technical solution."
+        data-es="Casos donde Luna diseñó la arquitectura conceptual y Toro materializó la solución técnica.">Cases where
+        Moon designed the conceptual architecture and Bull materialised the technical solution.</div>
+    </div>
+    <div class="cases-grid reveal">
+      <div class="case-card featured">
+        <div class="case-bg-num">01</div>
+        <div class="case-pill both"><span class="dot"></span><span data-en="Moon + Bull" data-es="Luna + Toro">Moon +
+            Bull</span></div>
+        <div class="case-title" data-en="Online Training<br/>Platform" data-es="Plataforma de<br/>Formación<br/>Online">
+          Online Training<br />Platform</div>
+        <div class="case-desc"
+          data-en="Complete e-learning ecosystem: AI content generation, automated enrolment, adaptive quizzes, attendance tracking, exams and comprehensive course administration."
+          data-es="Ecosistema completo de e-learning: generación de contenidos con IA, contratación automatizada, cuestionarios adaptativos, seguimiento de asistencia, exámenes y gestión administrativa integral de cursos.">
+          Complete e-learning ecosystem: AI content generation, automated enrolment, adaptive quizzes, attendance
+          tracking, exams and comprehensive course administration.</div>
+      </div>
+      <div class="case-card">
+        <div class="case-bg-num">02</div>
+        <div class="case-pill both"><span class="dot"></span><span data-en="Moon + Bull" data-es="Luna + Toro">Moon +
+            Bull</span></div>
+        <div class="case-title" data-en="AI Content<br/>Social Network" data-es="Red Social de<br/>Contenido IA">AI
+          Content<br />Social Network</div>
+        <div class="case-desc"
+          data-en="Content generation platform integrated with famous personality biographies. Narrative synthesis engine and dynamic personalisation."
+          data-es="Plataforma de generación de contenidos integrada con biografías de personajes famosos. Motor de síntesis narrativa y personalización dinámica.">
+          Content generation platform integrated with famous personality biographies. Narrative synthesis engine and
+          dynamic personalisation.</div>
+      </div>
+      <div class="case-card bull-case">
+        <div class="case-bg-num">03</div>
+        <div class="case-pill bull"><span class="dot"></span> The Bull</div>
+        <div class="case-title" data-en="Systems &amp;<br/>eCommerce<br/>Integration"
+          data-es="Integración<br/>Sistemas<br/>eCommerce">Systems &amp;<br />eCommerce<br />Integration</div>
+        <div class="case-desc"
+          data-en="Connection of legacy proprietary systems with modern e-commerce platforms. Real-time synchronisation of inventory, orders and customers."
+          data-es="Conexión de sistemas propietarios legacy con plataformas de comercio electrónico modernas. Sincronización en tiempo real de inventario, pedidos y clientes.">
+          Connection of legacy proprietary systems with modern e-commerce platforms. Real-time synchronisation of
+          inventory, orders and customers.</div>
+      </div>
+      <div class="case-card">
+        <div class="case-bg-num">04</div>
+        <div class="case-pill bull"><span class="dot"></span> The Bull</div>
+        <div class="case-title" data-en="Smart &amp; Integrated<br/>Websites"
+          data-es="Webs Inteligentes<br/>e Integradas">Smart &amp; Integrated<br />Websites</div>
+        <div class="case-desc"
+          data-en="Development of web presences with native platform integration, external APIs and conversational AI capabilities."
+          data-es="Desarrollo de presencias web con integración nativa en plataformas, APIs externas y capacidades de IA conversacional.">
+          Development of web presences with native platform integration, external APIs and conversational AI
+          capabilities.</div>
+      </div>
+      <div class="case-card bull-case" style="grid-column:2/4">
+        <div class="case-bg-num">05</div>
+        <div class="case-pill both"><span class="dot"></span><span data-en="Moon + Bull" data-es="Luna + Toro">Moon +
+            Bull</span></div>
+        <div class="case-title" data-en="Decision-Making Dashboards" data-es="Dashboards para Toma de Decisiones">
+          Decision-Making Dashboards</div>
+        <div class="case-desc"
+          data-en="Design and development of executive control panels with real-time analysis, critical KPI visualisation and actionable business intelligence for management."
+          data-es="Diseño y desarrollo de cuadros de mando ejecutivos con análisis en tiempo real, visualización de KPIs críticos e inteligencia de negocio accionable para la dirección.">
+          Design and development of executive control panels with real-time analysis, critical KPI visualisation and
+          actionable business intelligence for management.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT US -->
+  <section id="about">
+    <div class="about-manifesto reveal">
+      <div class="section-label" data-en="04 &mdash; About Us" data-es="04 &mdash; Nosotros">04 &mdash; About Us</div>
+      <h2 class="about-manifesto-title" data-en="Technology without<br/><em>purpose</em> is just noise."
+        data-es="Tecnología sin<br/><em>propósito</em> es solo ruido.">Technology without<br /><em>purpose</em> is just
+        noise.</h2>
+      <p class="about-manifesto-body"
+        data-en="In a world saturated with promises about Artificial Intelligence, we choose balance. AI needs both an architect and an engine. We are both: we dream with precision and we build with vision."
+        data-es="En un mundo saturado de promesas sobre Inteligencia Artificial, nosotros elegimos el equilibrio. La IA necesita tanto un arquitecto como un motor. Somos ambos: soñamos con precisión y construimos con visión.">
+        In a world saturated with promises about Artificial Intelligence, we choose balance. AI needs both an architect
+        and an engine. We are both: we dream with precision and we build with vision.</p>
+    </div>
+    <div class="about-dual">
+      <div class="about-side about-side-moon reveal">
+        <span class="about-side-num" data-en="01 // THE MOON" data-es="01 // THE MOON">01 // THE MOON</span>
+        <h3 class="about-side-heading" data-en="The Visionary<br/>Hemisphere" data-es="El Hemisferio<br/>Visionario">The
+          Visionary<br />Hemisphere</h3>
+        <p class="about-side-desc"
+          data-en="Creativity, research and conceptual design. Where projects are dreamed into existence. We turn the abstract into architectures, and questions into roadmaps."
+          data-es="Creatividad, investigación y diseño conceptual. Donde los proyectos se sueñan. Convertimos lo abstracto en arquitecturas y las preguntas en hojas de ruta.">
+          Creativity, research and conceptual design. Where projects are dreamed into existence. We turn the abstract
+          into architectures, and questions into roadmaps.</p>
+        <ul class="about-caps">
+          <li>
+            <div class="cap-title" data-en="Strategic Consulting" data-es="Consultoría Estratégica">Strategic Consulting
+            </div>
+            <div class="cap-desc" data-en="We identify the real competitive difference in your business model."
+              data-es="Identificamos la diferencia competitiva real en tu modelo de negocio.">We identify the real
+              competitive difference in your business model.</div>
+          </li>
+          <li>
+            <div class="cap-title" data-en="State of the Art" data-es="Estado del Arte">State of the Art</div>
+            <div class="cap-desc" data-en="We keep your technology at the frontier of the possible."
+              data-es="Mantenemos tu tecnología en la frontera de lo posible.">We keep your technology at the frontier
+              of the possible.</div>
+          </li>
+          <li>
+            <div class="cap-title" data-en="Conceptual AI Design" data-es="Diseño Conceptual IA">Conceptual AI Design
+            </div>
+            <div class="cap-desc" data-en="Functional architecture and user experience with creative vision."
+              data-es="Arquitectura funcional y experiencia de usuario con visión creativa.">Functional architecture and
+              user experience with creative vision.</div>
+          </li>
+        </ul>
+      </div>
+      <div class="about-side about-side-bull reveal reveal-delay-2">
+        <div class="scan-line"></div>
+        <span class="about-side-num" data-en="02 // THE BULL" data-es="02 // THE BULL">02 // THE BULL</span>
+        <h3 class="about-side-heading" data-en="Technological<br/>Muscle" data-es="Músculo<br/>Tecnológico">
+          Technological<br />Muscle</h3>
+        <p class="about-side-desc"
+          data-en="Computational power, advanced software and hardware. Where ideas become reality. We build systems that scale, architectures that endure, solutions that perform."
+          data-es="Potencia computacional, software y hardware avanzado. Donde las ideas se hacen realidad. Construimos sistemas que escalan, arquitecturas que resisten y soluciones que funcionan.">
+          Computational power, advanced software and hardware. Where ideas become reality. We build systems that scale,
+          architectures that endure, solutions that perform.</p>
+        <ul class="about-caps">
+          <li>
+            <div class="cap-title" data-en="Software Development" data-es="Desarrollo de Software">Software Development
+            </div>
+            <div class="cap-desc" data-en="Robust, scalable and efficient production systems."
+              data-es="Sistemas de producción robustos, escalables y eficientes.">Robust, scalable and efficient
+              production systems.</div>
+          </li>
+          <li>
+            <div class="cap-title" data-en="ML &amp; AI Engineering" data-es="Ingeniería ML &amp; IA">ML &amp; AI
+              Engineering</div>
+            <div class="cap-desc" data-en="From model training to optimised, production-ready deployment."
+              data-es="Desde el entrenamiento de modelos hasta el despliegue optimizado en producción.">From model
+              training to optimised, production-ready deployment.</div>
+          </li>
+          <li>
+            <div class="cap-title" data-en="Execution Power" data-es="Potencia de Ejecución">Execution Power</div>
+            <div class="cap-desc" data-en="Hardware architecture optimised for maximum performance."
+              data-es="Arquitectura hardware optimizada para máximo rendimiento.">Hardware architecture optimised for
+              maximum performance.</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="contact-left reveal">
+        <div class="section-label" style="color:var(--bull)" data-en="05 &mdash; Contact" data-es="05 &mdash; Contacto">
+          05 &mdash; Contact</div>
+        <h2 data-en="Let's start<br/><em>building.</em>" data-es="Empecemos<br/>a <em>construir.</em>">Let's
+          start<br /><em>building.</em></h2>
+        <p data-en="Have a technological challenge to solve? Tell us the vision. We bring the brain and the power."
+          data-es="¿Tienes un reto tecnológico que resolver? Cuéntanos la visión. Nosotros ponemos el cerebro y la potencia.">
+          Have a technological challenge to solve? Tell us the vision. We bring the brain and the power.</p>
+        <div class="contact-links">
+          <a href="mailto:yo@bookinnova.net" class="contact-link">
+            <span class="link-icon">&#9654;</span>
+            yo@bookinnova.net
+          </a>
+          <a href="https://linkedin.com" class="contact-link">
+            <span class="link-icon">in</span>
+            LinkedIn &mdash; The Bull and The Moon
+          </a>
+        </div>
+      </div>
+      <form class="contact-form reveal reveal-delay-2" action="https://formsubmit.co/yo@bookinnova.net" method="POST"
+        onsubmit="handleFormSubmit(event)">
+        <input type="hidden" name="_subject" value="New contact — The Bull &amp; The Moon" />
+        <input type="hidden" name="_captcha" value="false" />
+        <input type="hidden" name="_template" value="table" />
+        <input type="hidden" name="_next" value="" />
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" data-en="Company name *" data-es="Nombre empresa *">Company name *</label>
+            <input type="text" name="Company Name" class="form-input" placeholder="Your company" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" data-en="Contact person *" data-es="Persona de contacto *">Contact person
+              *</label>
+            <input type="text" name="Contact Person" class="form-input" placeholder="Your full name" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-en="Email *" data-es="Email *">Email *</label>
+          <input type="email" name="email" class="form-input" placeholder="email@company.com" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-en="Website(s)" data-es="Dominio(s) web">Website(s)</label>
+          <input type="text" name="Websites" class="form-input" placeholder="www.yourcompany.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-en="Message *" data-es="Mensaje *">Message *</label>
+          <textarea name="Message" class="form-input" rows="4"
+            placeholder="Tell us about your project, challenge or question..." style="resize:none;" required></textarea>
+        </div>
+        <div id="form-feedback"
+          style="display:none; font-size:0.7rem; padding:0.75rem 1rem; letter-spacing:0.05em; margin-bottom:0.5rem;">
+        </div>
+        <button type="submit" class="btn-bull" id="submit-btn"
+          style="border:none; padding:1rem 2.5rem; font-family:var(--font-body); font-size:0.75rem; letter-spacing:0.15em; text-transform:uppercase;"
+          data-en="Send message &rarr;" data-es="Enviar mensaje &rarr;">
+          Send message &rarr;
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">THE BULL <span>&</span> THE MOON</div>
+    <div class="footer-copy" data-en="© 2026 The Bull and The Moon. All rights reserved."
+      data-es="© 2026 The Bull and The Moon. Todos los derechos reservados.">© 2026 The Bull and The Moon. All rights
+      reserved.</div>
+    <div class="footer-status">
+      <div class="status-dot"></div><span data-en="Available for projects"
+        data-es="Disponibles para proyectos">Available for projects</span>
+    </div>
+  </footer>
+
+  <script>
+    function setLang(lang) {
+      document.querySelectorAll('[data-en]').forEach(el => {
+        const text = el.getAttribute('data-' + lang);
+        if (!text) return;
+        if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+          el.placeholder = text;
+        } else {
+          el.innerHTML = text;
+        }
+      });
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+      document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+      document.documentElement.lang = lang;
+    }
+    setLang('en');
+
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach(el => el.classList.add('animate-ready'));
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => observer.observe(el));
+
+    async function handleFormSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submit-btn');
+      const feedback = document.getElementById('form-feedback');
+      const form = e.target;
+      btn.textContent = document.documentElement.lang === 'es' ? 'Enviando...' : 'Sending...';
+      btn.style.opacity = '0.6'; btn.disabled = true;
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+        const isES = document.documentElement.lang === 'es';
+        if (res.ok) {
+          feedback.style.display = 'block'; feedback.style.background = 'rgba(255,62,62,0.08)';
+          feedback.style.borderLeft = '2px solid var(--bull)'; feedback.style.color = 'var(--moon)';
+          feedback.textContent = isES ? '✓ Mensaje enviado. Nos pondremos en contacto pronto.' : '✓ Message sent. We will get back to you soon.';
+          form.reset(); btn.textContent = isES ? 'Enviado ✓' : 'Sent ✓';
+        } else { throw new Error(); }
+      } catch {
+        const isES = document.documentElement.lang === 'es';
+        feedback.style.display = 'block'; feedback.style.background = 'rgba(255,62,62,0.06)';
+        feedback.style.borderLeft = '2px solid var(--bull)'; feedback.style.color = 'rgba(245,245,247,0.6)';
+        feedback.textContent = isES ? '✕ Hubo un error. Escríbenos a yo@bookinnova.net' : '✕ There was an error. Write to us at yo@bookinnova.net';
+        btn.textContent = isES ? 'Reintentar' : 'Try again'; btn.style.opacity = '1'; btn.disabled = false;
+      }
+    }
+
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+  </script>
+</body>
+
+</html>
