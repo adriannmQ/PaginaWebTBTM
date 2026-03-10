@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Content Generation System — The Bull and The Moon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root{--bg:#121212;--bg2:#0e0e0e;--bg3:#0a0a0a;--moon:#F5F5F7;--bull:#FF3E3E;--accent:#404040;--accent2:#2a2a2a;--font-title:'Syne',sans-serif;--font-body:'JetBrains Mono',monospace;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}body{background:var(--bg);color:var(--moon);font-family:var(--font-body);overflow-x:hidden;}
+  ::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--accent);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 4rem;background:rgba(18,18,18,.95);backdrop-filter:blur(10px);gap:1rem;}
+  nav::after{content:'';position:absolute;bottom:0;left:4rem;right:4rem;height:1px;background:var(--accent);opacity:.5;}
+  .nav-logo{font-family:var(--font-title);font-weight:800;font-size:1.1rem;letter-spacing:.08em;color:var(--moon);text-decoration:none;flex-shrink:0;}.nav-logo span{color:var(--bull);}
+  .nav-center{display:flex;align-items:center;gap:1.5rem;}
+  .nav-back{display:flex;align-items:center;gap:.75rem;color:var(--moon);text-decoration:none;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;opacity:.5;transition:opacity .3s,color .3s;}.nav-back:hover{opacity:1;color:var(--bull);}
+  .nav-back svg{width:14px;height:14px;transition:transform .3s;}.nav-back:hover svg{transform:translateX(-3px);}
+  .nav-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .8rem;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--accent);background:linear-gradient(90deg,rgba(245,245,247,.05),rgba(255,62,62,.05));color:var(--moon);}
+  .nav-pill .dot{width:5px;height:5px;border-radius:50%;background:var(--bull);}
+  .lang-switcher{display:flex;align-items:center;border:1px solid var(--accent);overflow:hidden;flex-shrink:0;}
+  .lang-btn{background:none;border:none;color:var(--moon);font-family:var(--font-body);font-size:.6rem;letter-spacing:.15em;padding:.35rem .65rem;opacity:.4;transition:opacity .2s,background .2s,color .2s;cursor:pointer;}
+  .lang-btn.active{background:var(--bull);color:#000;opacity:1;}.lang-btn:hover:not(.active){opacity:.8;}
+  #hero{min-height:60vh;display:flex;flex-direction:column;justify-content:flex-end;padding:10rem 4rem 5rem;position:relative;overflow:hidden;background:var(--bg3);border-bottom:1px solid var(--accent);}
+  #hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.12) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+  #hero::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--bull),transparent 60%);}
+  .hero-glow{position:absolute;bottom:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(255,62,62,.06) 0%,transparent 70%);pointer-events:none;}
+  .hero-meta{display:flex;align-items:center;gap:2rem;margin-bottom:2.5rem;position:relative;z-index:1;flex-wrap:wrap;}
+  .hero-breadcrumb{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:.35;display:flex;align-items:center;gap:.75rem;}
+  .hero-breadcrumb a{color:var(--moon);text-decoration:none;transition:color .2s;}.hero-breadcrumb a:hover{color:var(--bull);}.hero-breadcrumb span{opacity:.3;}
+  .hero-tag{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .8rem;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid rgba(245,245,247,.15);background:linear-gradient(90deg,rgba(245,245,247,.04),rgba(255,62,62,.04));color:var(--moon);}
+  .hero-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--bull);animation:blink 2s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero-title{font-family:var(--font-title);font-weight:800;font-size:clamp(2.5rem,7vw,6rem);line-height:.92;letter-spacing:-.03em;max-width:900px;margin-bottom:2rem;position:relative;z-index:1;}.hero-title em{font-style:normal;color:var(--bull);}
+  .hero-desc{font-size:.82rem;line-height:2;opacity:.5;max-width:580px;position:relative;z-index:1;}
+  section{position:relative;overflow:hidden;}
+  .section-label{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;opacity:.35;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;}.section-label::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  #demo{padding:7rem 4rem;background:var(--bg2);border-bottom:1px solid var(--accent);}
+  #demo::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 100%,rgba(255,62,62,.04) 0%,transparent 60%);pointer-events:none;}
+  .demo-header{margin-bottom:3rem;position:relative;z-index:1;}
+  .demo-wrapper{position:relative;z-index:1;border:1px solid var(--accent);background:#0d0d0d;overflow:hidden;}
+  .demo-panels{display:grid;grid-template-columns:1fr 20px 1fr 20px 1fr;align-items:stretch;min-height:380px;}
+  .demo-arrow{display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--moon);opacity:.2;border-left:1px solid var(--accent2);border-right:1px solid var(--accent2);}
+  .demo-panel{padding:2rem 1.75rem;border-right:1px solid var(--accent2);display:flex;flex-direction:column;gap:1rem;}.demo-panel:last-child{border-right:none;}
+  .demo-panel-label{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--moon);opacity:.35;display:flex;align-items:center;gap:.6rem;padding-bottom:1rem;border-bottom:1px solid var(--accent2);flex-shrink:0;}.demo-panel-label svg{width:12px;height:12px;opacity:.7;}
+  .config-field{display:flex;flex-direction:column;gap:.5rem;}
+  .config-label{font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;opacity:.3;}
+  .config-value{background:var(--accent2);border:1px solid var(--accent);padding:.6rem .85rem;font-size:.65rem;color:var(--moon);opacity:.8;}.config-value.active{border-color:rgba(255,62,62,.4);background:rgba(255,62,62,.05);}
+  .platform-row{display:flex;gap:.5rem;flex-wrap:wrap;}
+  .platform-tag{padding:.3rem .65rem;border:1px solid var(--accent);font-size:.52rem;letter-spacing:.08em;opacity:.5;}.platform-tag.on{border-color:rgba(255,62,62,.4);background:rgba(255,62,62,.06);opacity:1;}
+  .generate-btn{margin-top:auto;background:var(--bull);color:#000;font-family:var(--font-body);font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;padding:.7rem 1rem;border:none;cursor:default;display:flex;align-items:center;gap:.5rem;}
+  .script-block{background:var(--accent2);border:1px solid var(--accent);padding:1rem;flex:1;display:flex;flex-direction:column;gap:.75rem;overflow:hidden;}
+  .script-section{font-size:.55rem;letter-spacing:.15em;color:var(--bull);opacity:.7;text-transform:uppercase;}
+  .script-text{font-size:.65rem;line-height:1.7;opacity:.6;}.script-text.highlight{opacity:.9;}
+  .script-divider{height:1px;background:var(--accent2);margin:.25rem 0;}
+  .voice-row{display:flex;align-items:center;gap:.75rem;padding:.6rem .8rem;background:#111;border:1px solid var(--accent);}
+  .voice-icon{font-size:.9rem;color:var(--bull);animation:blink 1.2s infinite;}.voice-label{font-size:.6rem;opacity:.5;flex:1;}
+  .voice-waveform{display:flex;align-items:center;gap:2px;height:16px;}
+  .wave-bar{width:3px;background:var(--bull);border-radius:1px;animation:wave .8s ease-in-out infinite;}
+  .wave-bar:nth-child(2){animation-delay:.1s;}.wave-bar:nth-child(3){animation-delay:.2s;}.wave-bar:nth-child(4){animation-delay:.15s;}.wave-bar:nth-child(5){animation-delay:.05s;}
+  @keyframes wave{0%,100%{height:4px}50%{height:14px}}
+  .queue-list{display:flex;flex-direction:column;gap:.6rem;flex:1;}
+  .queue-item{display:flex;align-items:center;justify-content:space-between;padding:.6rem .8rem;border:1px solid var(--accent2);gap:.75rem;}.queue-item.done{border-color:rgba(255,62,62,.3);}
+  .queue-platform{font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;opacity:.5;min-width:60px;}
+  .queue-title{font-size:.6rem;opacity:.6;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+  .queue-status{font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;}
+  .queue-status.published{color:var(--bull);}.queue-status.pending{opacity:.3;}.queue-status.processing{opacity:.7;animation:blink 1s infinite;}
+  #challenge{padding:7rem 4rem;background:var(--bg);border-bottom:1px solid var(--accent);}
+  #challenge::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.07) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;}
+  .challenge-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--accent);}
+  .challenge-col{padding:4rem;}.challenge-col:first-child{border-right:1px solid var(--accent);}
+  .challenge-col h3{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:2.5rem;display:flex;align-items:center;gap:1rem;opacity:.35;}.challenge-col h3::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  .challenge-col p{font-size:.78rem;line-height:2.1;opacity:.55;margin-bottom:1.5rem;}.challenge-col p:last-child{margin-bottom:0;}
+  #results{padding:7rem 4rem;background:var(--bg2);border-bottom:1px solid var(--accent);}
+  .results-inner{position:relative;z-index:1;border:1px solid var(--accent);background:var(--bg3);overflow:hidden;}
+  .results-inner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(255,62,62,.05) 0%,transparent 60%);pointer-events:none;}
+  .results-label{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;opacity:.35;padding:2.5rem 3rem 0;display:flex;align-items:center;gap:1rem;position:relative;z-index:1;}.results-label::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  .results-grid{display:grid;grid-template-columns:repeat(3,1fr);position:relative;z-index:1;}
+  .result-item{padding:3rem;border-right:1px solid var(--accent);position:relative;}.result-item:last-child{border-right:none;}
+  .result-item::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--bull);transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}.result-item:hover::after{transform:scaleX(1);}
+  .result-number{font-family:var(--font-body);font-weight:300;font-size:clamp(2.8rem,5vw,5rem);line-height:1;letter-spacing:.04em;color:var(--moon);margin-bottom:1rem;}.result-number em{font-style:normal;color:var(--bull);}
+  .result-label{font-size:.68rem;opacity:.4;line-height:1.7;max-width:200px;}
+  #tech{padding:5rem 4rem 7rem;background:var(--bg);}
+  #tech::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.06) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+  .tech-header{position:relative;z-index:1;margin-bottom:2.5rem;}
+  .tech-pills{display:flex;flex-wrap:wrap;gap:.75rem;position:relative;z-index:1;}
+  .tech-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;font-size:.62rem;letter-spacing:.1em;border:1px solid var(--accent);color:var(--moon);opacity:.6;transition:border-color .25s,opacity .25s,background .25s;cursor:default;}
+  .tech-pill::before{content:'◆';font-size:.4rem;color:var(--bull);opacity:0;transition:opacity .25s;}.tech-pill:hover{border-color:rgba(255,62,62,.4);opacity:1;background:rgba(255,62,62,.04);}.tech-pill:hover::before{opacity:1;}
+  #cta{padding:6rem 4rem;background:var(--bg3);border-top:1px solid var(--accent);display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+  .cta-text h2{font-family:var(--font-title);font-weight:800;font-size:clamp(1.5rem,3.5vw,3rem);line-height:.95;letter-spacing:-.02em;margin-bottom:1rem;}.cta-text h2 em{font-style:normal;color:var(--bull);}
+  .cta-text p{font-size:.72rem;opacity:.4;line-height:1.8;max-width:400px;}
+  .cta-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;}
+  .btn-bull{display:inline-block;padding:.9rem 2.25rem;background:var(--bull);color:#000;font-family:var(--font-body);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:background .15s,box-shadow .15s;}.btn-bull:hover{background:#ff5555;box-shadow:0 0 20px rgba(255,62,62,.5);}
+  .btn-ghost{display:inline-block;padding:.9rem 2.25rem;border:1px solid rgba(245,245,247,.3);color:var(--moon);font-family:var(--font-body);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;backdrop-filter:blur(8px);transition:border-color .3s,background .3s;}.btn-ghost:hover{border-color:var(--moon);background:rgba(245,245,247,.06);}
+  footer{padding:2.5rem 4rem;border-top:1px solid var(--accent);display:flex;align-items:center;justify-content:space-between;background:var(--bg);gap:1rem;flex-wrap:wrap;}
+  .footer-logo{font-family:var(--font-title);font-weight:800;font-size:.85rem;letter-spacing:.1em;color:var(--moon);}.footer-logo span{color:var(--bull);}
+  .footer-copy{font-size:.6rem;opacity:.25;letter-spacing:.1em;}
+  .footer-status{font-size:.6rem;opacity:.35;letter-spacing:.12em;display:flex;align-items:center;gap:.5rem;}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--bull);animation:blink 2s ease-in-out infinite;}
+  .reveal{opacity:1;transform:translateY(0);transition:opacity .8s ease,transform .8s ease;}.reveal.animate-ready{opacity:0;transform:translateY(30px);}.reveal.animate-ready.visible{opacity:1;transform:translateY(0);}
+  .reveal-delay-1{transition-delay:.15s;}.reveal-delay-2{transition-delay:.3s;}
+  @media(max-width:1024px){nav,#hero,#demo,#challenge,#results,#tech,#cta,footer{padding-left:2.5rem;padding-right:2.5rem;}nav::after{left:2.5rem;right:2.5rem;}.demo-panels{grid-template-columns:1fr;}.demo-arrow{display:none;}.demo-panel{border-right:none;border-bottom:1px solid var(--accent2);}.results-grid{grid-template-columns:1fr 1fr;}.result-item:nth-child(2){border-right:none;}.result-item:nth-child(3){border-top:1px solid var(--accent);grid-column:1/3;border-right:none;}#cta{flex-direction:column;align-items:flex-start;}}
+  @media(max-width:768px){nav{padding:1.25rem 1.5rem;}nav::after{left:1.5rem;right:1.5rem;}#hero{padding:8rem 1.5rem 4rem;min-height:auto;}.hero-title{font-size:clamp(2rem,9vw,3rem);}#demo,#challenge,#results,#tech,#cta,footer{padding-left:1.5rem;padding-right:1.5rem;}.challenge-grid{grid-template-columns:1fr;}.challenge-col:first-child{border-right:none;border-bottom:1px solid var(--accent);}.results-grid{grid-template-columns:1fr;}.result-item{border-right:none;border-bottom:1px solid var(--accent);}.result-item:last-child{border-bottom:none;}.result-item:nth-child(3){grid-column:auto;}.results-label{padding:2rem 1.5rem 0;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">THE BULL <span>&</span> THE MOON</a>
+  <div class="nav-center">
+    <a href="index.html#cases" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-en="All Projects" data-es="Proyectos">All Projects</span>
+    </a>
+    <div class="nav-pill"><span class="dot"></span><span>Moon + Bull</span></div>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-meta reveal">
+    <div class="hero-breadcrumb">
+      <a href="index.html" data-en="Home" data-es="Inicio">Home</a><span>/</span>
+      <a href="index.html#cases" data-en="Projects" data-es="Proyectos">Projects</a><span>/</span>
+      <span data-en="Content Generation System" data-es="Sistema de Generación de Contenido">Content Generation System</span>
+    </div>
+    <div class="hero-tag"><span class="dot"></span> GenAI · Media</div>
+  </div>
+  <h1 class="hero-title reveal"
+    data-en="Content<br/>Generation<br/><em>System</em>"
+    data-es="Sistema de<br/>Generación de<br/><em>Contenido</em>">Content<br/>Generation<br/><em>System</em></h1>
+  <p class="hero-desc reveal reveal-delay-1"
+    data-en="A fully automated AI pipeline that writes scripts, synthesises voices and publishes video content to YouTube, TikTok and social platforms — without human intervention after the initial topic configuration."
+    data-es="Un pipeline de IA completamente automatizado que escribe guiones, sintetiza voces y publica contenido en vídeo en YouTube, TikTok y redes sociales — sin intervención humana tras la configuración inicial del tema.">A fully automated AI pipeline that writes scripts, synthesises voices and publishes video content to YouTube, TikTok and social platforms — without human intervention after the initial topic configuration.</p>
+</section>
+
+<section id="demo">
+  <div class="demo-header reveal">
+    <div class="section-label" style="color:var(--bull)" data-en="Live Demo — Automated pipeline" data-es="Demo en vivo — Pipeline automatizado">Live Demo — Automated pipeline</div>
+  </div>
+  <div class="demo-wrapper reveal reveal-delay-1">
+    <div class="demo-panels">
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          <span data-en="Content Config" data-es="Configuración">Content Config</span>
+        </div>
+        <div class="config-field">
+          <div class="config-label" data-en="Topic / Persona" data-es="Tema / Persona">Topic / Persona</div>
+          <div class="config-value active" data-en="History of famous inventors" data-es="Historia de inventores famosos">History of famous inventors</div>
+        </div>
+        <div class="config-field">
+          <div class="config-label" data-en="Format" data-es="Formato">Format</div>
+          <div class="config-value" data-en="Short-form video · 60–90s" data-es="Vídeo corto · 60–90s">Short-form video · 60–90s</div>
+        </div>
+        <div class="config-field">
+          <div class="config-label" data-en="Voice Profile" data-es="Perfil de voz">Voice Profile</div>
+          <div class="config-value" data-en="EN-US · Neutral · Authoritative" data-es="ES-ES · Neutral · Autoritativo">EN-US · Neutral · Authoritative</div>
+        </div>
+        <div class="config-field">
+          <div class="config-label" data-en="Publish to" data-es="Publicar en">Publish to</div>
+          <div class="platform-row">
+            <div class="platform-tag on">YouTube</div><div class="platform-tag on">TikTok</div><div class="platform-tag on">Instagram</div><div class="platform-tag">X</div>
+          </div>
+        </div>
+        <div class="generate-btn"><span style="animation:blink 1s infinite;display:inline-block;">⟳</span><span data-en="Generating..." data-es="Generando...">Generating...</span></div>
+      </div>
+      <div class="demo-arrow">→</div>
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <span data-en="AI-Generated Script" data-es="Guión generado por IA">AI-Generated Script</span>
+        </div>
+        <div class="script-block">
+          <div class="script-section" data-en="Hook — 0:00–0:05" data-es="Gancho — 0:00–0:05">Hook — 0:00–0:05</div>
+          <div class="script-text highlight" data-en='"Did you know the invention that changed modern computing was rejected 12 times before it was patented?"' data-es='"¿Sabías que el invento que cambió la computación moderna fue rechazado 12 veces antes de ser patentado?"'>"Did you know the invention that changed modern computing was rejected 12 times before it was patented?"</div>
+          <div class="script-divider"></div>
+          <div class="script-section" data-en="Body — 0:05–0:55" data-es="Cuerpo — 0:05–0:55">Body — 0:05–0:55</div>
+          <div class="script-text" data-en="The story begins in 1947, when three engineers at Bell Labs were trying to solve a simple amplification problem. What they created instead would power every smartphone on the planet..." data-es="La historia comienza en 1947, cuando tres ingenieros de Bell Labs intentaban resolver un simple problema de amplificación. Lo que crearon en su lugar alimentaría cada smartphone del planeta...">The story begins in 1947, when three engineers at Bell Labs were trying to solve a simple amplification problem. What they created instead would power every smartphone on the planet...</div>
+          <div class="script-divider"></div>
+          <div class="script-section" data-en="CTA — 0:55–1:00" data-es="CTA — 0:55–1:00">CTA — 0:55–1:00</div>
+          <div class="script-text" data-en="Follow for daily stories about the minds that built the modern world." data-es="Síguenos para historias diarias sobre las mentes que construyeron el mundo moderno.">Follow for daily stories about the minds that built the modern world.</div>
+        </div>
+        <div class="voice-row">
+          <span class="voice-icon">🔊</span>
+          <span class="voice-label" data-en="TTS synthesis — EN-US Neutral" data-es="Síntesis TTS — ES-ES Neutral">TTS synthesis — EN-US Neutral</span>
+          <div class="voice-waveform"><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div></div>
+        </div>
+      </div>
+      <div class="demo-arrow">→</div>
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2 11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <span data-en="Publish Queue" data-es="Cola de publicación">Publish Queue</span>
+        </div>
+        <div class="queue-list">
+          <div class="queue-item done"><span class="queue-platform">YouTube</span><span class="queue-title" data-en="Tesla — The forgotten genius" data-es="Tesla — El genio olvidado">Tesla — The forgotten genius</span><span class="queue-status published" data-en="Published" data-es="Publicado">Published</span></div>
+          <div class="queue-item done"><span class="queue-platform">TikTok</span><span class="queue-title" data-en="Tesla — The forgotten genius" data-es="Tesla — El genio olvidado">Tesla — The forgotten genius</span><span class="queue-status published" data-en="Published" data-es="Publicado">Published</span></div>
+          <div class="queue-item"><span class="queue-platform">Instagram</span><span class="queue-title" data-en="Bell Labs transistor story" data-es="El transistor de Bell Labs">Bell Labs transistor story</span><span class="queue-status processing" data-en="Processing" data-es="Procesando">Processing</span></div>
+          <div class="queue-item"><span class="queue-platform">YouTube</span><span class="queue-title" data-en="Ada Lovelace — First programmer" data-es="Ada Lovelace — Primera programadora">Ada Lovelace — First programmer</span><span class="queue-status pending" data-en="Scheduled" data-es="Programado">Scheduled</span></div>
+          <div class="queue-item"><span class="queue-platform">TikTok</span><span class="queue-title" data-en="Ada Lovelace — First programmer" data-es="Ada Lovelace — Primera programadora">Ada Lovelace — First programmer</span><span class="queue-status pending" data-en="Scheduled" data-es="Programado">Scheduled</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="challenge">
+  <div class="challenge-grid reveal">
+    <div class="challenge-col">
+      <h3 data-en="The Challenge" data-es="El Reto">The Challenge</h3>
+      <p data-en="Creating consistent, high-quality short-form video content at scale required large editorial teams, voice talent, video editors and platform managers — an unsustainable cost structure for any media brand trying to dominate multiple channels simultaneously." data-es="Crear contenido de vídeo corto de alta calidad y de forma consistente a escala requería grandes equipos editoriales, actores de voz, editores de vídeo y gestores de plataformas — una estructura de costes insostenible para cualquier marca de medios que quiera dominar múltiples canales al mismo tiempo.">Creating consistent, high-quality short-form video content at scale required large editorial teams, voice talent, video editors and platform managers — an unsustainable cost structure for any media brand trying to dominate multiple channels simultaneously.</p>
+      <p data-en="The client needed to publish daily across YouTube, TikTok and Instagram with a coherent narrative voice, without growing headcount proportionally." data-es="El cliente necesitaba publicar diariamente en YouTube, TikTok e Instagram con una voz narrativa coherente, sin incrementar el equipo de forma proporcional.">The client needed to publish daily across YouTube, TikTok and Instagram with a coherent narrative voice, without growing headcount proportionally.</p>
+    </div>
+    <div class="challenge-col">
+      <h3 data-en="Our Solution" data-es="Nuestra Solución">Our Solution</h3>
+      <p data-en="Moon defined the content architecture — persona profiles, narrative frameworks and the editorial logic that governs topic selection, hook formulas and call-to-action patterns. Bull built the end-to-end pipeline: LLM script generation, neural text-to-speech synthesis, automated video assembly and native platform API publishing." data-es="Moon definió la arquitectura de contenido: perfiles de persona, marcos narrativos y la lógica editorial que rige la selección de temas, fórmulas de gancho y patrones de llamada a la acción. Bull construyó el pipeline de extremo a extremo: generación de guiones con LLMs, síntesis de voz neuronal, montaje de vídeo automatizado y publicación vía APIs nativas de plataformas.">Moon defined the content architecture — persona profiles, narrative frameworks and the editorial logic that governs topic selection, hook formulas and call-to-action patterns. Bull built the end-to-end pipeline: LLM script generation, neural text-to-speech synthesis, automated video assembly and native platform API publishing.</p>
+      <p data-en="The system runs on a scheduler: configure once per persona, receive a daily output of fully produced and published videos with zero editorial involvement." data-es="El sistema funciona con un planificador: configura una vez por persona y recibe diariamente vídeos completamente producidos y publicados sin ninguna intervención editorial.">The system runs on a scheduler: configure once per persona, receive a daily output of fully produced and published videos with zero editorial involvement.</p>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="results-inner reveal">
+    <div class="results-label" data-en="Results" data-es="Resultados">Results</div>
+    <div class="results-grid">
+      <div class="result-item"><div class="result-number"><em>50×</em></div><div class="result-label" data-en="Content output increase vs manual production capacity" data-es="Aumento de producción de contenido vs. capacidad manual">Content output increase vs manual production capacity</div></div>
+      <div class="result-item"><div class="result-number"><em>−95%</em></div><div class="result-label" data-en="Production cost per published video" data-es="Coste de producción por vídeo publicado">Production cost per published video</div></div>
+      <div class="result-item"><div class="result-number"><em>+230%</em></div><div class="result-label" data-en="Audience reach growth in 90 days across all platforms" data-es="Crecimiento de audiencia en 90 días en todas las plataformas">Audience reach growth in 90 days across all platforms</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="tech-header reveal"><div class="section-label" style="color:var(--moon)" data-en="Technologies used" data-es="Tecnologías utilizadas">Technologies used</div></div>
+  <div class="tech-pills reveal reveal-delay-1">
+    <div class="tech-pill">Large Language Models</div><div class="tech-pill">Neural Text-to-Speech</div><div class="tech-pill">Video Synthesis Pipeline</div><div class="tech-pill">YouTube Data API</div><div class="tech-pill">TikTok API</div><div class="tech-pill">Workflow Automation</div><div class="tech-pill">Python · FastAPI</div><div class="tech-pill">Cloud Infrastructure</div><div class="tech-pill">Content Scheduler</div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="cta-text reveal">
+    <h2 data-en="Ready to build<br/><em>something similar?</em>" data-es="¿Listo para construir<br/><em>algo similar?</em>">Ready to build<br/><em>something similar?</em></h2>
+    <p data-en="Tell us your challenge. Moon designs the vision, Bull executes the technology." data-es="Cuéntanos tu reto. Moon diseña la visión, Bull ejecuta la tecnología.">Tell us your challenge. Moon designs the vision, Bull executes the technology.</p>
+  </div>
+  <div class="cta-actions reveal reveal-delay-1">
+    <a href="index.html#contact" class="btn-bull" data-en="Start a project →" data-es="Iniciar un proyecto →">Start a project →</a>
+    <a href="index.html#cases" class="btn-ghost" data-en="← All projects" data-es="← Todos los proyectos">← All projects</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">THE BULL <span>&</span> THE MOON</div>
+  <div class="footer-copy" data-en="© 2026 The Bull and The Moon. All rights reserved." data-es="© 2026 The Bull and The Moon. Todos los derechos reservados.">© 2026 The Bull and The Moon. All rights reserved.</div>
+  <div class="footer-status"><div class="status-dot"></div><span data-en="Available for projects" data-es="Disponibles para proyectos">Available for projects</span></div>
+</footer>
+
+<script>
+  function setLang(lang){
+    document.querySelectorAll('[data-en]').forEach(el=>{
+      const t=el.getAttribute('data-'+lang);if(t)el.innerHTML=t;
+    });
+    document.getElementById('btn-en').classList.toggle('active',lang==='en');
+    document.getElementById('btn-es').classList.toggle('active',lang==='es');
+    document.documentElement.lang=lang;
+  }
+  setLang('en');
+  const reveals=document.querySelectorAll('.reveal');
+  reveals.forEach(el=>el.classList.add('animate-ready'));
+  const obs=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:.1});
+  reveals.forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
