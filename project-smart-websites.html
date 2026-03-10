@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Smart & Integrated Websites — The Bull and The Moon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root{--bg:#121212;--bg2:#0e0e0e;--bg3:#0a0a0a;--moon:#F5F5F7;--bull:#FF3E3E;--accent:#404040;--accent2:#2a2a2a;--font-title:'Syne',sans-serif;--font-body:'JetBrains Mono',monospace;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--moon);font-family:var(--font-body);overflow-x:hidden;}
+  ::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--accent);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 4rem;background:rgba(18,18,18,.95);backdrop-filter:blur(10px);gap:1rem;}
+  nav::after{content:'';position:absolute;bottom:0;left:4rem;right:4rem;height:1px;background:var(--accent);opacity:.5;}
+  .nav-logo{font-family:var(--font-title);font-weight:800;font-size:1.1rem;letter-spacing:.08em;color:var(--moon);text-decoration:none;flex-shrink:0;}
+  .nav-logo span{color:var(--bull);}
+  .nav-center{display:flex;align-items:center;gap:1.5rem;}
+  .nav-back{display:flex;align-items:center;gap:.75rem;color:var(--moon);text-decoration:none;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;opacity:.5;transition:opacity .3s,color .3s;}
+  .nav-back:hover{opacity:1;color:var(--bull);}
+  .nav-back svg{width:14px;height:14px;transition:transform .3s;}
+  .nav-back:hover svg{transform:translateX(-3px);}
+  .nav-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .8rem;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid rgba(255,62,62,.4);background:rgba(255,62,62,.06);color:var(--bull);}
+  .nav-pill .dot{width:5px;height:5px;border-radius:50%;background:var(--bull);}
+  .lang-switcher{display:flex;align-items:center;border:1px solid var(--accent);overflow:hidden;flex-shrink:0;}
+  .lang-btn{background:none;border:none;color:var(--moon);font-family:var(--font-body);font-size:.6rem;letter-spacing:.15em;padding:.35rem .65rem;opacity:.4;transition:opacity .2s,background .2s,color .2s;cursor:pointer;}
+  .lang-btn.active{background:var(--bull);color:#000;opacity:1;}
+  .lang-btn:hover:not(.active){opacity:.8;}
+  #hero{min-height:60vh;display:flex;flex-direction:column;justify-content:flex-end;padding:10rem 4rem 5rem;position:relative;overflow:hidden;background:var(--bg3);border-bottom:1px solid var(--accent);}
+  #hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.12) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+  #hero::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--bull),transparent 60%);}
+  .hero-glow{position:absolute;bottom:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(255,62,62,.06) 0%,transparent 70%);pointer-events:none;}
+  .hero-meta{display:flex;align-items:center;gap:2rem;margin-bottom:2.5rem;position:relative;z-index:1;flex-wrap:wrap;}
+  .hero-breadcrumb{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:.35;display:flex;align-items:center;gap:.75rem;}
+  .hero-breadcrumb a{color:var(--moon);text-decoration:none;transition:color .2s;}.hero-breadcrumb a:hover{color:var(--bull);}
+  .hero-breadcrumb span{opacity:.3;}
+  .hero-tag{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .8rem;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid rgba(255,62,62,.3);background:rgba(255,62,62,.05);color:var(--bull);}
+  .hero-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--bull);animation:blink 2s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero-title{font-family:var(--font-title);font-weight:800;font-size:clamp(2.5rem,7vw,6rem);line-height:.92;letter-spacing:-.03em;max-width:900px;margin-bottom:2rem;position:relative;z-index:1;}
+  .hero-title em{font-style:normal;color:var(--bull);}
+  .hero-desc{font-size:.82rem;line-height:2;opacity:.5;max-width:580px;position:relative;z-index:1;}
+  section{position:relative;overflow:hidden;}
+  .section-label{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;opacity:.35;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;}
+  .section-label::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  #demo{padding:7rem 4rem;background:var(--bg2);border-bottom:1px solid var(--accent);}
+  #demo::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 100%,rgba(255,62,62,.04) 0%,transparent 60%);pointer-events:none;}
+  .demo-header{margin-bottom:3rem;position:relative;z-index:1;}
+  .demo-wrapper{position:relative;z-index:1;border:1px solid var(--accent);background:#0d0d0d;overflow:hidden;}
+  .demo-panels{display:grid;grid-template-columns:1fr 20px 1fr 20px 1fr;align-items:stretch;min-height:400px;}
+  .demo-arrow{display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--moon);opacity:.2;border-left:1px solid var(--accent2);border-right:1px solid var(--accent2);}
+  .demo-panel{padding:2rem 1.75rem;border-right:1px solid var(--accent2);display:flex;flex-direction:column;gap:1rem;}
+  .demo-panel:last-child{border-right:none;}
+  .demo-panel-label{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--moon);opacity:.35;display:flex;align-items:center;gap:.6rem;padding-bottom:1rem;border-bottom:1px solid var(--accent2);flex-shrink:0;}
+  .demo-panel-label svg{width:12px;height:12px;opacity:.7;}
+  .integration-row{display:flex;align-items:center;justify-content:space-between;padding:.5rem .75rem;border:1px solid var(--accent2);font-size:.6rem;}
+  .integration-row.active{border-color:rgba(255,62,62,.3);background:rgba(255,62,62,.04);}
+  .int-name{opacity:.65;}
+  .int-badge{font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;}
+  .int-badge.on{color:var(--bull);}.int-badge.off{opacity:.25;}
+  .int-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+  .int-dot.on{background:var(--bull);animation:blink 1.5s infinite;}.int-dot.off{background:var(--accent);}
+  .page-list{display:flex;flex-direction:column;gap:.35rem;}
+  .page-item{font-size:.58rem;padding:.3rem .6rem;border-left:2px solid var(--accent2);opacity:.45;cursor:default;}
+  .page-item.active{border-left-color:var(--bull);opacity:.9;}
+  .chat-window{background:var(--accent2);border:1px solid var(--accent);flex:1;display:flex;flex-direction:column;overflow:hidden;}
+  .chat-header{padding:.6rem 1rem;border-bottom:1px solid var(--accent);display:flex;align-items:center;gap:.6rem;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;opacity:.5;}
+  .chat-dot{width:6px;height:6px;border-radius:50%;background:var(--bull);animation:blink 1s infinite;}
+  .chat-messages{flex:1;padding:1rem;display:flex;flex-direction:column;gap:.75rem;overflow:hidden;}
+  .chat-msg{display:flex;flex-direction:column;gap:.3rem;max-width:85%;}
+  .chat-msg.user{align-self:flex-end;align-items:flex-end;}.chat-msg.bot{align-self:flex-start;}
+  .chat-bubble{padding:.5rem .85rem;font-size:.62rem;line-height:1.5;}
+  .chat-bubble.user{background:rgba(255,62,62,.12);border:1px solid rgba(255,62,62,.25);color:var(--moon);}
+  .chat-bubble.bot{background:var(--bg3);border:1px solid var(--accent);color:var(--moon);opacity:.8;}
+  .chat-time{font-size:.48rem;opacity:.25;}
+  .chat-input{padding:.6rem 1rem;border-top:1px solid var(--accent);display:flex;align-items:center;gap:.75rem;}
+  .chat-input-field{flex:1;background:transparent;border:none;font-family:var(--font-body);font-size:.6rem;color:var(--moon);opacity:.4;outline:none;}
+  .chat-send{background:var(--bull);color:#000;font-family:var(--font-body);font-size:.55rem;padding:.35rem .65rem;border:none;cursor:default;}
+  .analytics-kpis{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;}
+  .a-kpi{background:var(--accent2);border:1px solid var(--accent);padding:.75rem;display:flex;flex-direction:column;gap:.3rem;}
+  .a-kpi.highlight{border-color:rgba(255,62,62,.3);background:rgba(255,62,62,.04);}
+  .a-label{font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;opacity:.3;}
+  .a-val{font-family:var(--font-body);font-weight:300;font-size:1.3rem;letter-spacing:.02em;line-height:1;}
+  .a-val em{font-style:normal;color:var(--bull);}
+  .a-delta{font-size:.5rem;opacity:.4;}.a-delta.up{color:#4ade80;opacity:.8;}
+  .funnel{display:flex;flex-direction:column;gap:.35rem;flex:1;}
+  .funnel-step{display:flex;align-items:center;justify-content:space-between;padding:.4rem .6rem;font-size:.58rem;}
+  .funnel-bar-wrap{flex:1;margin:0 .75rem;height:3px;background:var(--accent2);}
+  .funnel-bar{height:100%;background:var(--bull);}
+  .funnel-val{opacity:.4;white-space:nowrap;}
+  #challenge{padding:7rem 4rem;background:var(--bg);border-bottom:1px solid var(--accent);}
+  #challenge::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.07) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;}
+  .challenge-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--accent);}
+  .challenge-col{padding:4rem;}
+  .challenge-col:first-child{border-right:1px solid var(--accent);}
+  .challenge-col h3{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:2.5rem;display:flex;align-items:center;gap:1rem;opacity:.35;}
+  .challenge-col h3::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  .challenge-col p{font-size:.78rem;line-height:2.1;opacity:.55;margin-bottom:1.5rem;}
+  .challenge-col p:last-child{margin-bottom:0;}
+  #results{padding:7rem 4rem;background:var(--bg2);border-bottom:1px solid var(--accent);}
+  .results-inner{position:relative;z-index:1;border:1px solid var(--accent);background:var(--bg3);overflow:hidden;}
+  .results-inner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(255,62,62,.05) 0%,transparent 60%);pointer-events:none;}
+  .results-label{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;opacity:.35;padding:2.5rem 3rem 0;display:flex;align-items:center;gap:1rem;position:relative;z-index:1;}
+  .results-label::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  .results-grid{display:grid;grid-template-columns:repeat(3,1fr);position:relative;z-index:1;}
+  .result-item{padding:3rem;border-right:1px solid var(--accent);position:relative;}
+  .result-item:last-child{border-right:none;}
+  .result-item::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--bull);transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
+  .result-item:hover::after{transform:scaleX(1);}
+  .result-number{font-family:var(--font-body);font-weight:300;font-size:clamp(2.8rem,5vw,5rem);line-height:1;letter-spacing:.04em;color:var(--moon);margin-bottom:1rem;}
+  .result-number em{font-style:normal;color:var(--bull);}
+  .result-label{font-size:.68rem;opacity:.4;line-height:1.7;max-width:200px;}
+  #tech{padding:5rem 4rem 7rem;background:var(--bg);}
+  #tech::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.06) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+  .tech-header{position:relative;z-index:1;margin-bottom:2.5rem;}
+  .tech-pills{display:flex;flex-wrap:wrap;gap:.75rem;position:relative;z-index:1;}
+  .tech-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;font-size:.62rem;letter-spacing:.1em;border:1px solid var(--accent);color:var(--moon);opacity:.6;transition:border-color .25s,opacity .25s,background .25s;cursor:default;}
+  .tech-pill::before{content:'◆';font-size:.4rem;color:var(--bull);opacity:0;transition:opacity .25s;}
+  .tech-pill:hover{border-color:rgba(255,62,62,.4);opacity:1;background:rgba(255,62,62,.04);}
+  .tech-pill:hover::before{opacity:1;}
+  #cta{padding:6rem 4rem;background:var(--bg3);border-top:1px solid var(--accent);display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+  .cta-text h2{font-family:var(--font-title);font-weight:800;font-size:clamp(1.5rem,3.5vw,3rem);line-height:.95;letter-spacing:-.02em;margin-bottom:1rem;}
+  .cta-text h2 em{font-style:normal;color:var(--bull);}
+  .cta-text p{font-size:.72rem;opacity:.4;line-height:1.8;max-width:400px;}
+  .cta-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;}
+  .btn-bull{display:inline-block;padding:.9rem 2.25rem;background:var(--bull);color:#000;font-family:var(--font-body);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:background .15s,box-shadow .15s;}
+  .btn-bull:hover{background:#ff5555;box-shadow:0 0 20px rgba(255,62,62,.5);}
+  .btn-ghost{display:inline-block;padding:.9rem 2.25rem;border:1px solid rgba(245,245,247,.3);color:var(--moon);font-family:var(--font-body);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;backdrop-filter:blur(8px);transition:border-color .3s,background .3s;}
+  .btn-ghost:hover{border-color:var(--moon);background:rgba(245,245,247,.06);}
+  footer{padding:2.5rem 4rem;border-top:1px solid var(--accent);display:flex;align-items:center;justify-content:space-between;background:var(--bg);gap:1rem;flex-wrap:wrap;}
+  .footer-logo{font-family:var(--font-title);font-weight:800;font-size:.85rem;letter-spacing:.1em;color:var(--moon);}
+  .footer-logo span{color:var(--bull);}
+  .footer-copy{font-size:.6rem;opacity:.25;letter-spacing:.1em;}
+  .footer-status{font-size:.6rem;opacity:.35;letter-spacing:.12em;display:flex;align-items:center;gap:.5rem;}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--bull);animation:blink 2s ease-in-out infinite;}
+  .reveal{opacity:1;transform:translateY(0);transition:opacity .8s ease,transform .8s ease;}
+  .reveal.animate-ready{opacity:0;transform:translateY(30px);}
+  .reveal.animate-ready.visible{opacity:1;transform:translateY(0);}
+  .reveal-delay-1{transition-delay:.15s;}
+  @media(max-width:1024px){
+    nav,#hero,#demo,#challenge,#results,#tech,#cta,footer{padding-left:2.5rem;padding-right:2.5rem;}
+    nav::after{left:2.5rem;right:2.5rem;}
+    .demo-panels{grid-template-columns:1fr;}.demo-arrow{display:none;}
+    .demo-panel{border-right:none;border-bottom:1px solid var(--accent2);}
+    .results-grid{grid-template-columns:1fr 1fr;}
+    .result-item:nth-child(2){border-right:none;}
+    .result-item:nth-child(3){border-top:1px solid var(--accent);grid-column:1/3;border-right:none;}
+    #cta{flex-direction:column;align-items:flex-start;}
+  }
+  @media(max-width:768px){
+    nav{padding:1.25rem 1.5rem;}nav::after{left:1.5rem;right:1.5rem;}
+    #hero{padding:8rem 1.5rem 4rem;}.hero-title{font-size:clamp(2rem,9vw,3rem);}
+    #demo,#challenge,#results,#tech,#cta,footer{padding-left:1.5rem;padding-right:1.5rem;}
+    .challenge-grid{grid-template-columns:1fr;}.challenge-col:first-child{border-right:none;border-bottom:1px solid var(--accent);}
+    .results-grid{grid-template-columns:1fr;}.result-item{border-right:none;border-bottom:1px solid var(--accent);}
+    .result-item:last-child{border-bottom:none;}.result-item:nth-child(2){border-right:none;}.result-item:nth-child(3){grid-column:auto;}
+    .results-label{padding:2rem 1.5rem 0;}
+    .analytics-kpis{grid-template-columns:1fr 1fr;}
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">THE BULL <span>&</span> THE MOON</a>
+  <div class="nav-center">
+    <a href="index.html#cases" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-en="All Projects" data-es="Todos los proyectos">All Projects</span>
+    </a>
+    <div class="nav-pill"><span class="dot"></span><span data-en="The Bull" data-es="El Toro">The Bull</span></div>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-meta reveal">
+    <div class="hero-breadcrumb">
+      <a href="index.html" data-en="Home" data-es="Inicio">Home</a><span>/</span>
+      <a href="index.html#cases" data-en="Projects" data-es="Proyectos">Projects</a><span>/</span>
+      <span data-en="Smart Websites" data-es="Webs Inteligentes">Smart Websites</span>
+    </div>
+    <div class="hero-tag"><span class="dot"></span><span data-en="Web · AI" data-es="Web · IA">Web · AI</span></div>
+  </div>
+  <h1 class="hero-title reveal" data-en="Smart &amp;<br/>Integrated<br/><em>Websites</em>" data-es="Webs<br/>Inteligentes e<br/><em>Integradas</em>">Smart &amp;<br/>Integrated<br/><em>Websites</em></h1>
+  <p class="hero-desc reveal reveal-delay-1"
+     data-en="Web presences with native platform integration, external API connectivity and conversational AI capabilities — transforming static pages into intelligent, data-driven experiences that work for the business 24/7."
+     data-es="Presencias web con integración nativa de plataformas, conectividad con APIs externas y capacidades de IA conversacional — transformando páginas estáticas en experiencias inteligentes y basadas en datos que trabajan para el negocio las 24 horas.">Web presences with native platform integration, external API connectivity and conversational AI capabilities — transforming static pages into intelligent, data-driven experiences that work for the business 24/7.</p>
+</section>
+
+<section id="demo">
+  <div class="demo-header reveal">
+    <div class="section-label" style="color:var(--bull)" data-en="Live Demo — Intelligent web stack" data-es="Demo en vivo — Stack web inteligente">Live Demo — Intelligent web stack</div>
+  </div>
+  <div class="demo-wrapper reveal reveal-delay-1">
+    <div class="demo-panels">
+
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+          <span data-en="CMS & Integrations" data-es="CMS e Integraciones">CMS & Integrations</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:.5rem;">
+          <div class="integration-row active"><div style="display:flex;align-items:center;gap:.5rem;"><div class="int-dot on"></div><span class="int-name">Sanity CMS</span></div><span class="int-badge on" data-en="Active" data-es="Activo">Active</span></div>
+          <div class="integration-row active"><div style="display:flex;align-items:center;gap:.5rem;"><div class="int-dot on"></div><span class="int-name">Stripe Payments</span></div><span class="int-badge on" data-en="Active" data-es="Activo">Active</span></div>
+          <div class="integration-row active"><div style="display:flex;align-items:center;gap:.5rem;"><div class="int-dot on"></div><span class="int-name">HubSpot CRM</span></div><span class="int-badge on" data-en="Active" data-es="Activo">Active</span></div>
+          <div class="integration-row"><div style="display:flex;align-items:center;gap:.5rem;"><div class="int-dot off"></div><span class="int-name">Salesforce</span></div><span class="int-badge off" data-en="Disabled" data-es="Inactivo">Disabled</span></div>
+          <div class="integration-row active"><div style="display:flex;align-items:center;gap:.5rem;"><div class="int-dot on"></div><span class="int-name">OpenAI API</span></div><span class="int-badge on" data-en="Active" data-es="Activo">Active</span></div>
+        </div>
+        <div style="font-size:.52rem;opacity:.25;letter-spacing:.1em;text-transform:uppercase;padding-top:.5rem;" data-en="Pages" data-es="Páginas">Pages</div>
+        <div class="page-list">
+          <div class="page-item active" data-en="/ — Home" data-es="/ — Inicio">/ — Home</div>
+          <div class="page-item" data-en="/products — Catalogue" data-es="/productos — Catálogo">/products — Catalogue</div>
+          <div class="page-item" data-en="/blog — Articles" data-es="/blog — Artículos">/blog — Articles</div>
+          <div class="page-item" data-en="/contact — Form + AI" data-es="/contacto — Formulario + IA">/contact — Form + AI</div>
+        </div>
+      </div>
+
+      <div class="demo-arrow">→</div>
+
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span data-en="AI Chat Widget" data-es="Widget de Chat IA">AI Chat Widget</span>
+        </div>
+        <div class="chat-window">
+          <div class="chat-header"><div class="chat-dot"></div> <span data-en="AI Assistant · Online" data-es="Asistente IA · En línea">AI Assistant · Online</span></div>
+          <div class="chat-messages">
+            <div class="chat-msg bot"><div class="chat-bubble bot" data-en="Hello! How can I help you today?" data-es="¡Hola! ¿En qué puedo ayudarte hoy?">Hello! How can I help you today?</div><div class="chat-time">09:14</div></div>
+            <div class="chat-msg user"><div class="chat-bubble user" data-en="Do you have the Pro plan available?" data-es="¿Tienen disponible el plan Pro?">Do you have the Pro plan available?</div><div class="chat-time">09:14</div></div>
+            <div class="chat-msg bot"><div class="chat-bubble bot" data-en="Yes! The Pro plan includes unlimited projects, priority support and API access. Would you like me to send you a quote directly?" data-es="¡Sí! El plan Pro incluye proyectos ilimitados, soporte prioritario y acceso a la API. ¿Te envío un presupuesto directamente?">Yes! The Pro plan includes unlimited projects, priority support and API access. Would you like me to send you a quote directly?</div><div class="chat-time">09:14</div></div>
+            <div class="chat-msg user"><div class="chat-bubble user" data-en="Yes, send it to my email." data-es="Sí, envíalo a mi email.">Yes, send it to my email.</div><div class="chat-time">09:15</div></div>
+            <div class="chat-msg bot"><div class="chat-bubble bot" data-en="Done — quote sent to your inbox and logged in CRM. ✓" data-es="Listo — presupuesto enviado a tu bandeja y registrado en el CRM. ✓">Done — quote sent to your inbox and logged in CRM. ✓</div><div class="chat-time">09:15</div></div>
+          </div>
+          <div class="chat-input">
+            <input class="chat-input-field" data-en="Type a message..." data-es="Escribe un mensaje..." placeholder="Type a message..." readonly/>
+            <div class="chat-send">→</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo-arrow">→</div>
+
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span data-en="Live Analytics" data-es="Analytics en Vivo">Live Analytics</span>
+        </div>
+        <div class="analytics-kpis">
+          <div class="a-kpi highlight"><div class="a-label" data-en="Active Sessions" data-es="Sesiones Activas">Active Sessions</div><div class="a-val"><em>248</em></div><div class="a-delta up" data-en="↑ +34 vs avg" data-es="↑ +34 vs media">↑ +34 vs avg</div></div>
+          <div class="a-kpi"><div class="a-label" data-en="Bounce Rate" data-es="Tasa de Rebote">Bounce Rate</div><div class="a-val">18%</div><div class="a-delta up">↓ −12pp</div></div>
+          <div class="a-kpi"><div class="a-label" data-en="AI Conversations" data-es="Conversaciones IA">AI Conversations</div><div class="a-val">41</div><div class="a-delta up" data-en="↑ today" data-es="↑ hoy">↑ today</div></div>
+          <div class="a-kpi"><div class="a-label" data-en="Conversions" data-es="Conversiones">Conversions</div><div class="a-val">4.9%</div><div class="a-delta up">↑ +1.2pp</div></div>
+        </div>
+        <div style="font-size:.52rem;opacity:.25;letter-spacing:.1em;text-transform:uppercase;padding-top:.25rem;" data-en="Conversion Funnel" data-es="Embudo de Conversión">Conversion Funnel</div>
+        <div class="funnel">
+          <div class="funnel-step"><span style="opacity:.5;font-size:.58rem;" data-en="Visit" data-es="Visita">Visit</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:100%"></div></div><span class="funnel-val">1,240</span></div>
+          <div class="funnel-step"><span style="opacity:.5;font-size:.58rem;" data-en="Engaged" data-es="Interesado">Engaged</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:72%"></div></div><span class="funnel-val">893</span></div>
+          <div class="funnel-step"><span style="opacity:.5;font-size:.58rem;" data-en="AI chat" data-es="Chat IA">AI chat</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:28%"></div></div><span class="funnel-val">347</span></div>
+          <div class="funnel-step"><span style="opacity:.5;font-size:.58rem;" data-en="Converted" data-es="Convertido">Converted</span><div class="funnel-bar-wrap"><div class="funnel-bar" style="width:8%"></div></div><span class="funnel-val">61</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="challenge">
+  <div class="challenge-grid reveal">
+    <div class="challenge-col">
+      <h3 data-en="The Challenge" data-es="El Reto">The Challenge</h3>
+      <p data-en="The client's website was a static brochure — visually polished but functionally inert. Visitors had no way to get instant answers, qualify their interest or connect with the CRM without filling out a form and waiting days for a response."
+         data-es="La web del cliente era un folleto estático — visualmente cuidada pero funcionalmente inerte. Los visitantes no podían obtener respuestas inmediatas, cualificar su interés ni conectar con el CRM sin rellenar un formulario y esperar días.">The client's website was a static brochure — visually polished but functionally inert. Visitors had no way to get instant answers, qualify their interest or connect with the CRM without filling out a form and waiting days for a response.</p>
+      <p data-en="Multiple business tools (CRM, payments, CMS, analytics) were completely isolated from the website, requiring manual data entry and creating blind spots in the customer journey."
+         data-es="Múltiples herramientas de negocio (CRM, pagos, CMS, analítica) estaban completamente aisladas del sitio web, requiriendo entrada manual de datos y creando puntos ciegos en el viaje del cliente.">Multiple business tools (CRM, payments, CMS, analytics) were completely isolated from the website, requiring manual data entry and creating blind spots in the customer journey.</p>
+    </div>
+    <div class="challenge-col">
+      <h3 data-en="Our Solution" data-es="Nuestra Solución">Our Solution</h3>
+      <p data-en="Bull built a modern web platform with a headless CMS at its core, connected via API to the client's entire technology stack. Every conversation, form submission and purchase flows automatically into the correct system — HubSpot, Stripe, or the ERP — with zero manual handling."
+         data-es="Bull construyó una plataforma web moderna con un CMS headless en su núcleo, conectado vía API a toda la pila tecnológica del cliente. Cada conversación, envío de formulario y compra fluye automáticamente al sistema correcto — HubSpot, Stripe o el ERP — sin intervención manual.">Bull built a modern web platform with a headless CMS at its core, connected via API to the client's entire technology stack. Every conversation, form submission and purchase flows automatically into the correct system — HubSpot, Stripe, or the ERP — with zero manual handling.</p>
+      <p data-en="The embedded conversational AI uses a fine-tuned model trained on the company's product catalogue, FAQs and pricing logic. It qualifies leads, answers questions and triggers workflows in connected systems — acting as a 24/7 sales assistant that escalates to a human only when needed."
+         data-es="La IA conversacional integrada utiliza un modelo ajustado entrenado con el catálogo de productos, las FAQs y la lógica de precios de la empresa. Cualifica leads, responde preguntas y activa flujos en sistemas conectados — actuando como asistente de ventas 24/7 que escala a un humano solo cuando es necesario.">The embedded conversational AI uses a fine-tuned model trained on the company's product catalogue, FAQs and pricing logic. It qualifies leads, answers questions and triggers workflows in connected systems — acting as a 24/7 sales assistant that escalates to a human only when needed.</p>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="results-inner reveal">
+    <div class="results-label" data-en="Results" data-es="Resultados">Results</div>
+    <div class="results-grid">
+      <div class="result-item"><div class="result-number"><em>+180%</em></div><div class="result-label" data-en="Increase in qualified lead engagement on site" data-es="Aumento en el engagement de leads cualificados en el sitio">Increase in qualified lead engagement on site</div></div>
+      <div class="result-item"><div class="result-number"><em>−60%</em></div><div class="result-label" data-en="Reduction in support tickets through AI self-service" data-es="Reducción de tickets de soporte mediante autoservicio de IA">Reduction in support tickets through AI self-service</div></div>
+      <div class="result-item"><div class="result-number">4.9/5</div><div class="result-label" data-en="User satisfaction score for the AI chat assistant" data-es="Puntuación de satisfacción de usuarios con el asistente de chat IA">User satisfaction score for the AI chat assistant</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="tech-header reveal">
+    <div class="section-label" style="color:var(--moon)" data-en="Technologies used" data-es="Tecnologías utilizadas">Technologies used</div>
+  </div>
+  <div class="tech-pills reveal reveal-delay-1">
+    <div class="tech-pill">Next.js · TypeScript</div>
+    <div class="tech-pill">Sanity CMS</div>
+    <div class="tech-pill">OpenAI API</div>
+    <div class="tech-pill" data-en="HubSpot Integration" data-es="Integración HubSpot">HubSpot Integration</div>
+    <div class="tech-pill">Stripe Payments</div>
+    <div class="tech-pill" data-en="Conversational AI" data-es="IA Conversacional">Conversational AI</div>
+    <div class="tech-pill">REST / GraphQL API</div>
+    <div class="tech-pill">Vercel Edge CDN</div>
+    <div class="tech-pill" data-en="Analytics Pipeline" data-es="Pipeline de Analítica">Analytics Pipeline</div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="cta-text reveal">
+    <h2 data-en="Ready to build<br/><em>something similar?</em>" data-es="¿Listo para construir<br/><em>algo similar?</em>">Ready to build<br/><em>something similar?</em></h2>
+    <p data-en="Tell us your challenge. Moon designs the vision, Bull executes the technology." data-es="Cuéntanos tu reto. Moon diseña la visión, Bull ejecuta la tecnología.">Tell us your challenge. Moon designs the vision, Bull executes the technology.</p>
+  </div>
+  <div class="cta-actions reveal reveal-delay-1">
+    <a href="index.html#contact" class="btn-bull" data-en="Start a project →" data-es="Iniciar un proyecto →">Start a project →</a>
+    <a href="index.html#cases" class="btn-ghost" data-en="← All projects" data-es="← Todos los proyectos">← All projects</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">THE BULL <span>&</span> THE MOON</div>
+  <div class="footer-copy" data-en="© 2026 The Bull and The Moon. All rights reserved." data-es="© 2026 The Bull and The Moon. Todos los derechos reservados.">© 2026 The Bull and The Moon. All rights reserved.</div>
+  <div class="footer-status"><div class="status-dot"></div><span data-en="Available for projects" data-es="Disponibles para proyectos">Available for projects</span></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const t = el.getAttribute('data-' + lang);
+      if (!t) return;
+      if (el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder = t;
+      else el.innerHTML = t;
+    });
+    document.getElementById('btn-en').classList.toggle('active', lang==='en');
+    document.getElementById('btn-es').classList.toggle('active', lang==='es');
+    document.documentElement.lang = lang;
+  }
+  setLang('en');
+  const reveals = document.querySelectorAll('.reveal');
+  reveals.forEach(el => el.classList.add('animate-ready'));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

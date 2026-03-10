@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Online Training Platform — The Bull and The Moon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root{--bg:#121212;--bg2:#0e0e0e;--bg3:#0a0a0a;--moon:#F5F5F7;--bull:#FF3E3E;--accent:#404040;--accent2:#2a2a2a;--font-title:'Syne',sans-serif;--font-body:'JetBrains Mono',monospace;}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--moon);font-family:var(--font-body);overflow-x:hidden;}
+  ::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:var(--accent);}
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.5rem 4rem;background:rgba(18,18,18,.95);backdrop-filter:blur(10px);gap:1rem;}
+  nav::after{content:'';position:absolute;bottom:0;left:4rem;right:4rem;height:1px;background:var(--accent);opacity:.5;}
+  .nav-logo{font-family:var(--font-title);font-weight:800;font-size:1.1rem;letter-spacing:.08em;color:var(--moon);text-decoration:none;flex-shrink:0;}
+  .nav-logo span{color:var(--bull);}
+  .nav-center{display:flex;align-items:center;gap:1.5rem;}
+  .nav-back{display:flex;align-items:center;gap:.75rem;color:var(--moon);text-decoration:none;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;opacity:.5;transition:opacity .3s,color .3s;}
+  .nav-back:hover{opacity:1;color:var(--bull);}
+  .nav-back svg{width:14px;height:14px;transition:transform .3s;}
+  .nav-back:hover svg{transform:translateX(-3px);}
+  .nav-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .8rem;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid var(--accent);background:linear-gradient(90deg,rgba(245,245,247,.05),rgba(255,62,62,.05));color:var(--moon);}
+  .nav-pill .dot{width:5px;height:5px;border-radius:50%;background:var(--bull);}
+  .lang-switcher{display:flex;align-items:center;border:1px solid var(--accent);overflow:hidden;flex-shrink:0;}
+  .lang-btn{background:none;border:none;color:var(--moon);font-family:var(--font-body);font-size:.6rem;letter-spacing:.15em;padding:.35rem .65rem;opacity:.4;transition:opacity .2s,background .2s,color .2s;cursor:pointer;}
+  .lang-btn.active{background:var(--bull);color:#000;opacity:1;}
+  .lang-btn:hover:not(.active){opacity:.8;}
+  #hero{min-height:60vh;display:flex;flex-direction:column;justify-content:flex-end;padding:10rem 4rem 5rem;position:relative;overflow:hidden;background:var(--bg3);border-bottom:1px solid var(--accent);}
+  #hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.12) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+  #hero::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--bull),transparent 60%);}
+  .hero-glow{position:absolute;bottom:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(255,62,62,.06) 0%,transparent 70%);pointer-events:none;}
+  .hero-meta{display:flex;align-items:center;gap:2rem;margin-bottom:2.5rem;position:relative;z-index:1;flex-wrap:wrap;}
+  .hero-breadcrumb{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:.35;display:flex;align-items:center;gap:.75rem;}
+  .hero-breadcrumb a{color:var(--moon);text-decoration:none;transition:color .2s;}.hero-breadcrumb a:hover{color:var(--bull);}
+  .hero-breadcrumb span{opacity:.3;}
+  .hero-tag{display:inline-flex;align-items:center;gap:.5rem;padding:.3rem .8rem;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid rgba(245,245,247,.15);background:linear-gradient(90deg,rgba(245,245,247,.04),rgba(255,62,62,.04));color:var(--moon);}
+  .hero-tag .dot{width:5px;height:5px;border-radius:50%;background:var(--bull);animation:blink 2s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+  .hero-title{font-family:var(--font-title);font-weight:800;font-size:clamp(2.5rem,7vw,6rem);line-height:.92;letter-spacing:-.03em;max-width:900px;margin-bottom:2rem;position:relative;z-index:1;}
+  .hero-title em{font-style:normal;color:var(--bull);}
+  .hero-desc{font-size:.82rem;line-height:2;opacity:.5;max-width:580px;position:relative;z-index:1;}
+  section{position:relative;overflow:hidden;}
+  .section-label{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;opacity:.35;margin-bottom:1.5rem;display:flex;align-items:center;gap:1rem;}
+  .section-label::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  #demo{padding:7rem 4rem;background:var(--bg2);border-bottom:1px solid var(--accent);}
+  #demo::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 100%,rgba(255,62,62,.04) 0%,transparent 60%);pointer-events:none;}
+  .demo-header{margin-bottom:3rem;position:relative;z-index:1;}
+  .demo-wrapper{position:relative;z-index:1;border:1px solid var(--accent);background:#0d0d0d;overflow:hidden;}
+  .demo-panels{display:grid;grid-template-columns:1fr 20px 1fr 20px 1fr;align-items:stretch;min-height:380px;}
+  .demo-arrow{display:flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--moon);opacity:.2;border-left:1px solid var(--accent2);border-right:1px solid var(--accent2);}
+  .demo-panel{padding:2rem 1.75rem;border-right:1px solid var(--accent2);display:flex;flex-direction:column;gap:1rem;}
+  .demo-panel:last-child{border-right:none;}
+  .demo-panel-label{font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;color:var(--moon);opacity:.35;display:flex;align-items:center;gap:.6rem;padding-bottom:1rem;border-bottom:1px solid var(--accent2);flex-shrink:0;}
+  .demo-panel-label svg{width:12px;height:12px;opacity:.7;}
+  .upload-box{border:1px dashed var(--accent);padding:2rem 1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;text-align:center;flex:1;}
+  .upload-icon{font-size:1.5rem;opacity:.3;}
+  .upload-filename{font-size:.65rem;opacity:.5;line-height:1.5;}
+  .processing-btn{display:flex;align-items:center;gap:.6rem;background:var(--accent2);border:1px solid var(--accent);color:var(--moon);font-family:var(--font-body);font-size:.6rem;letter-spacing:.1em;padding:.6rem 1rem;cursor:default;flex-shrink:0;}
+  .processing-dot{width:6px;height:6px;border-radius:50%;background:var(--bull);animation:blink 1s infinite;flex-shrink:0;}
+  .spin{display:inline-block;animation:spin 1.5s linear infinite;}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  .q-counter{font-size:.6rem;opacity:.3;flex-shrink:0;}
+  .question-card{background:var(--accent2);border:1px solid var(--accent);padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;}
+  .q-number{font-size:.6rem;letter-spacing:.15em;color:var(--bull);opacity:.8;}
+  .q-text{font-size:.72rem;line-height:1.6;}
+  .q-options{display:flex;flex-direction:column;gap:.4rem;}
+  .q-option{font-size:.62rem;padding:.4rem .75rem;border:1px solid var(--accent);opacity:.5;line-height:1.4;}
+  .q-option.correct{border-color:rgba(255,62,62,.5);background:rgba(255,62,62,.08);color:var(--bull);opacity:1;}
+  .q-type{font-size:.55rem;letter-spacing:.1em;opacity:.3;font-style:italic;}
+  .question-card-open{background:var(--accent2);border:1px solid var(--accent);padding:1.25rem;display:flex;flex-direction:column;gap:.5rem;}
+  .student-list{display:flex;flex-direction:column;gap:1rem;flex:1;}
+  .student-row{display:flex;align-items:center;gap:.75rem;}
+  .student-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;background:var(--accent2);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:500;color:var(--moon);opacity:.8;}
+  .student-info{flex:1;}
+  .student-name{font-size:.65rem;margin-bottom:.4rem;}
+  .progress-bar-bg{height:3px;background:var(--accent2);overflow:hidden;width:100%;}
+  .progress-bar-fill{height:100%;background:var(--moon);transition:width 1.5s ease;}
+  .progress-bar-fill.bull{background:var(--bull);}
+  .student-pct{font-size:.6rem;opacity:.5;white-space:nowrap;}
+  .alert-badge{display:flex;align-items:center;gap:.6rem;background:rgba(255,62,62,.08);border:1px solid rgba(255,62,62,.3);padding:.6rem .9rem;font-size:.6rem;color:var(--bull);letter-spacing:.05em;line-height:1.4;flex-shrink:0;}
+  #challenge{padding:7rem 4rem;background:var(--bg);border-bottom:1px solid var(--accent);}
+  #challenge::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.07) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;}
+  .challenge-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--accent);}
+  .challenge-col{padding:4rem;}
+  .challenge-col:first-child{border-right:1px solid var(--accent);}
+  .challenge-col h3{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:2.5rem;display:flex;align-items:center;gap:1rem;opacity:.35;}
+  .challenge-col h3::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  .challenge-col p{font-size:.78rem;line-height:2.1;opacity:.55;margin-bottom:1.5rem;}
+  .challenge-col p:last-child{margin-bottom:0;}
+  #results{padding:7rem 4rem;background:var(--bg2);border-bottom:1px solid var(--accent);}
+  .results-inner{position:relative;z-index:1;border:1px solid var(--accent);background:var(--bg3);overflow:hidden;}
+  .results-inner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(255,62,62,.05) 0%,transparent 60%);pointer-events:none;}
+  .results-label{font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;opacity:.35;padding:2.5rem 3rem 0;display:flex;align-items:center;gap:1rem;position:relative;z-index:1;}
+  .results-label::before{content:'';display:block;width:30px;height:1px;background:currentColor;}
+  .results-grid{display:grid;grid-template-columns:repeat(3,1fr);position:relative;z-index:1;}
+  .result-item{padding:3rem;border-right:1px solid var(--accent);position:relative;}
+  .result-item:last-child{border-right:none;}
+  .result-item::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--bull);transform:scaleX(0);transform-origin:left;transition:transform .5s ease;}
+  .result-item:hover::after{transform:scaleX(1);}
+  .result-number{font-family:var(--font-body);font-weight:300;font-size:clamp(2.8rem,5vw,5rem);line-height:1;letter-spacing:.04em;color:var(--moon);margin-bottom:1rem;}
+  .result-number em{font-style:normal;color:var(--bull);}
+  .result-label{font-size:.68rem;opacity:.4;line-height:1.7;max-width:200px;}
+  #tech{padding:5rem 4rem 7rem;background:var(--bg);}
+  #tech::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(64,64,64,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(64,64,64,.06) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;}
+  .tech-header{position:relative;z-index:1;margin-bottom:2.5rem;}
+  .tech-pills{display:flex;flex-wrap:wrap;gap:.75rem;position:relative;z-index:1;}
+  .tech-pill{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1.25rem;font-size:.62rem;letter-spacing:.1em;border:1px solid var(--accent);color:var(--moon);opacity:.6;transition:border-color .25s,opacity .25s,background .25s;cursor:default;}
+  .tech-pill::before{content:'◆';font-size:.4rem;color:var(--bull);opacity:0;transition:opacity .25s;}
+  .tech-pill:hover{border-color:rgba(255,62,62,.4);opacity:1;background:rgba(255,62,62,.04);}
+  .tech-pill:hover::before{opacity:1;}
+  #cta{padding:6rem 4rem;background:var(--bg3);border-top:1px solid var(--accent);display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+  .cta-text h2{font-family:var(--font-title);font-weight:800;font-size:clamp(1.5rem,3.5vw,3rem);line-height:.95;letter-spacing:-.02em;margin-bottom:1rem;}
+  .cta-text h2 em{font-style:normal;color:var(--bull);}
+  .cta-text p{font-size:.72rem;opacity:.4;line-height:1.8;max-width:400px;}
+  .cta-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;}
+  .btn-bull{display:inline-block;padding:.9rem 2.25rem;background:var(--bull);color:#000;font-family:var(--font-body);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:background .15s,box-shadow .15s;}
+  .btn-bull:hover{background:#ff5555;box-shadow:0 0 20px rgba(255,62,62,.5);}
+  .btn-ghost{display:inline-block;padding:.9rem 2.25rem;border:1px solid rgba(245,245,247,.3);color:var(--moon);font-family:var(--font-body);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;backdrop-filter:blur(8px);transition:border-color .3s,background .3s;}
+  .btn-ghost:hover{border-color:var(--moon);background:rgba(245,245,247,.06);}
+  footer{padding:2.5rem 4rem;border-top:1px solid var(--accent);display:flex;align-items:center;justify-content:space-between;background:var(--bg);gap:1rem;flex-wrap:wrap;}
+  .footer-logo{font-family:var(--font-title);font-weight:800;font-size:.85rem;letter-spacing:.1em;color:var(--moon);}
+  .footer-logo span{color:var(--bull);}
+  .footer-copy{font-size:.6rem;opacity:.25;letter-spacing:.1em;}
+  .footer-status{font-size:.6rem;opacity:.35;letter-spacing:.12em;display:flex;align-items:center;gap:.5rem;}
+  .status-dot{width:6px;height:6px;border-radius:50%;background:var(--bull);animation:blink 2s ease-in-out infinite;}
+  .reveal{opacity:1;transform:translateY(0);transition:opacity .8s ease,transform .8s ease;}
+  .reveal.animate-ready{opacity:0;transform:translateY(30px);}
+  .reveal.animate-ready.visible{opacity:1;transform:translateY(0);}
+  .reveal-delay-1{transition-delay:.15s;}.reveal-delay-2{transition-delay:.3s;}
+  @media(max-width:1024px){nav,#hero,#demo,#challenge,#results,#tech,#cta,footer{padding-left:2.5rem;padding-right:2.5rem;}nav::after{left:2.5rem;right:2.5rem;}.demo-panels{grid-template-columns:1fr;}.demo-arrow{display:none;}.demo-panel{border-right:none;border-bottom:1px solid var(--accent2);}.results-grid{grid-template-columns:1fr 1fr;}.result-item:nth-child(2){border-right:none;}.result-item:nth-child(3){border-top:1px solid var(--accent);grid-column:1/3;border-right:none;}#cta{flex-direction:column;align-items:flex-start;}}
+  @media(max-width:768px){nav{padding:1.25rem 1.5rem;}nav::after{left:1.5rem;right:1.5rem;}#hero{padding:8rem 1.5rem 4rem;min-height:auto;}.hero-title{font-size:clamp(2rem,9vw,3rem);}#demo,#challenge,#results,#tech,#cta,footer{padding-left:1.5rem;padding-right:1.5rem;}.challenge-grid{grid-template-columns:1fr;}.challenge-col:first-child{border-right:none;border-bottom:1px solid var(--accent);}.results-grid{grid-template-columns:1fr;}.result-item{border-right:none;border-bottom:1px solid var(--accent);}.result-item:last-child{border-bottom:none;}.result-item:nth-child(3){grid-column:auto;}.results-label{padding:2rem 1.5rem 0;}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-logo">THE BULL <span>&</span> THE MOON</a>
+  <div class="nav-center">
+    <a href="index.html#cases" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span data-en="All Projects" data-es="Proyectos">All Projects</span>
+    </a>
+    <div class="nav-pill"><span class="dot"></span><span>Moon + Bull</span></div>
+  </div>
+  <div class="lang-switcher">
+    <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn" id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-meta reveal">
+    <div class="hero-breadcrumb">
+      <a href="index.html" data-en="Home" data-es="Inicio">Home</a><span>/</span>
+      <a href="index.html#cases" data-en="Projects" data-es="Proyectos">Projects</a><span>/</span>
+      <span data-en="Online Training Platform" data-es="Plataforma de Formación Online">Online Training Platform</span>
+    </div>
+    <div class="hero-tag"><span class="dot"></span> EdTech · AI</div>
+  </div>
+  <h1 class="hero-title reveal" data-en="Online<br/>Training<br/><em>Platform</em>" data-es="Plataforma de<br/>Formación<br/><em>Online</em>">Online<br/>Training<br/><em>Platform</em></h1>
+  <p class="hero-desc reveal reveal-delay-1"
+    data-en="An AI system that automatically generates exams from any syllabus, grades responses and tracks individual student progress — with zero manual effort after initial setup."
+    data-es="Un sistema de IA que genera automáticamente exámenes a partir de cualquier temario, califica las respuestas y realiza un seguimiento del aprovechamiento de cada alumno, sin intervención manual tras la carga inicial.">An AI system that automatically generates exams from any syllabus, grades responses and tracks individual student progress — with zero manual effort after initial setup.</p>
+</section>
+
+<section id="demo">
+  <div class="demo-header reveal">
+    <div class="section-label" style="color:var(--bull)" data-en="Live Demo — How it works" data-es="Demo en Vivo — Cómo funciona">Live Demo — How it works</div>
+  </div>
+  <div class="demo-wrapper reveal reveal-delay-1">
+    <div class="demo-panels">
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          <span data-en="Temario / Syllabus" data-es="Temario / Syllabus">Temario / Syllabus</span>
+        </div>
+        <div class="upload-box">
+          <div class="upload-icon">↑</div>
+          <div class="upload-filename">Unit 4 — Machine Learning Fundamentals.pdf</div>
+        </div>
+        <div class="processing-btn">
+          <span class="processing-dot"></span><span class="spin">⟳</span>
+          <span data-en="AI Processing..." data-es="Procesando con IA...">AI Processing...</span>
+        </div>
+      </div>
+      <div class="demo-arrow">→</div>
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span data-en="Generated Questions" data-es="Preguntas Generadas">Generated Questions</span>
+          <span class="q-counter">(5 / 12)</span>
+        </div>
+        <div class="question-card">
+          <div class="q-number">Q1.</div>
+          <div class="q-text" data-en="What is the primary goal of supervised learning?" data-es="¿Cuál es el objetivo principal del aprendizaje supervisado?">What is the primary goal of supervised learning?</div>
+          <div class="q-options">
+            <div class="q-option correct" data-en="✓ Mapping inputs to labelled outputs" data-es="✓ Mapear entradas a salidas etiquetadas">✓ Mapping inputs to labelled outputs</div>
+            <div class="q-option" data-en="Grouping unlabelled data" data-es="Agrupar datos no etiquetados">Grouping unlabelled data</div>
+            <div class="q-option" data-en="Maximising a reward signal" data-es="Maximizar una señal de recompensa">Maximising a reward signal</div>
+          </div>
+        </div>
+        <div class="question-card-open">
+          <div class="q-number">Q2.</div>
+          <div class="q-text" data-en="Explain the bias-variance trade-off in 2 sentences." data-es="Explica el compromiso sesgo-varianza en 2 frases.">Explain the bias-variance trade-off in 2 sentences.</div>
+          <div class="q-type" data-en="Open-ended · LLM-graded" data-es="Respuesta abierta · Calificada por LLM">Open-ended · LLM-graded</div>
+        </div>
+      </div>
+      <div class="demo-arrow">→</div>
+      <div class="demo-panel">
+        <div class="demo-panel-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          <span data-en="Student Progress" data-es="Progreso del Alumno">Student Progress</span>
+        </div>
+        <div class="student-list">
+          <div class="student-row"><div class="student-avatar">MR</div><div class="student-info"><div class="student-name">María R.</div><div class="progress-bar-bg"><div class="progress-bar-fill" data-final="84%"></div></div></div><div class="student-pct">84%</div></div>
+          <div class="student-row"><div class="student-avatar">JP</div><div class="student-info"><div class="student-name">Jhon P.</div><div class="progress-bar-bg"><div class="progress-bar-fill bull" data-final="51%"></div></div></div><div class="student-pct">51%</div></div>
+          <div class="student-row"><div class="student-avatar">AL</div><div class="student-info"><div class="student-name">Aiko L.</div><div class="progress-bar-bg"><div class="progress-bar-fill" data-final="92%"></div></div></div><div class="student-pct">92%</div></div>
+        </div>
+        <div class="alert-badge" data-en="⚠ Jhon needs support on: bias-variance" data-es="⚠ Jhon necesita refuerzo en: sesgo-varianza">⚠ Jhon needs support on: bias-variance</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="challenge">
+  <div class="challenge-grid reveal">
+    <div class="challenge-col">
+      <h3 data-en="The Challenge" data-es="El Reto">The Challenge</h3>
+      <p data-en="Educational institutions and companies needed to convert any training material into interactive, auto-correctable exams — eliminating manual effort and ensuring consistent evaluation." data-es="Empresas e instituciones educativas necesitaban convertir cualquier material formativo en exámenes interactivos y autocorregibles sin esfuerzo manual, ahorrando tiempo y garantizando una evaluación consistente.">Educational institutions and companies needed to convert any training material into interactive, auto-correctable exams — eliminating manual effort and ensuring consistent evaluation.</p>
+      <p data-en="They also needed real-time visibility into each student's progress, improvement areas and overall programme effectiveness, accessible from a single panel." data-es="También necesitaban información en tiempo real sobre el progreso de cada alumno, las áreas de mejora y la efectividad global del programa, accesible desde un único panel.">They also needed real-time visibility into each student's progress, improvement areas and overall programme effectiveness, accessible from a single panel.</p>
+    </div>
+    <div class="challenge-col">
+      <h3 data-en="Our Solution" data-es="Nuestra Solución">Our Solution</h3>
+      <p data-en="We built an AI pipeline that ingests syllabuses (PDF, DOCX, plain text) and automatically generates multiple-choice, open-ended and true/false questions calibrated to the depth and difficulty of the content." data-es="Construimos un pipeline de IA que ingiere un temario (PDF, DOCX, texto plano) y genera automáticamente preguntas de opción múltiple, respuesta abierta y verdadero/falso calibradas a la profundidad y dificultad del contenido.">We built an AI pipeline that ingests syllabuses (PDF, DOCX, plain text) and automatically generates multiple-choice, open-ended and true/false questions calibrated to the depth and difficulty of the content.</p>
+      <p data-en="The system grades responses using LLMs, tracks per-student progress, detects knowledge gaps and generates personalised feedback reports — all with zero human intervention after the initial upload." data-es="El sistema califica las respuestas usando LLMs, hace seguimiento del progreso por alumno, detecta lagunas de conocimiento y genera informes de retroalimentación personalizados — todo sin intervención humana tras la carga inicial.">The system grades responses using LLMs, tracks per-student progress, detects knowledge gaps and generates personalised feedback reports — all with zero human intervention after the initial upload.</p>
+    </div>
+  </div>
+</section>
+
+<section id="results">
+  <div class="results-inner reveal">
+    <div class="results-label" data-en="Results" data-es="Resultados">Results</div>
+    <div class="results-grid">
+      <div class="result-item"><div class="result-number"><em>−90%</em></div><div class="result-label" data-en="Exam creation time vs. manual process" data-es="Tiempo de creación de exámenes vs. proceso manual">Exam creation time vs. manual process</div></div>
+      <div class="result-item"><div class="result-number">96%</div><div class="result-label" data-en="Grading accuracy compared to human evaluators" data-es="Precisión de calificación vs. evaluadores humanos">Grading accuracy compared to human evaluators</div></div>
+      <div class="result-item"><div class="result-number"><em>+68%</em></div><div class="result-label" data-en="Increase in student engagement and completion rate" data-es="Aumento del engagement y tasa de finalización">Increase in student engagement and completion rate</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="tech">
+  <div class="tech-header reveal">
+    <div class="section-label" style="color:var(--moon)" data-en="Technologies used" data-es="Tecnologías utilizadas">Technologies used</div>
+  </div>
+  <div class="tech-pills reveal reveal-delay-1">
+    <div class="tech-pill">Large Language Models</div><div class="tech-pill">RAG Pipeline</div><div class="tech-pill">Adaptive Testing Engine</div><div class="tech-pill">Real-Time Analytics</div><div class="tech-pill">Cloud Infrastructure</div><div class="tech-pill">REST API</div><div class="tech-pill">Python · FastAPI</div><div class="tech-pill">PostgreSQL</div>
+  </div>
+</section>
+
+<section id="cta">
+  <div class="cta-text reveal">
+    <h2 data-en="Ready to build<br/><em>something similar?</em>" data-es="¿Listo para construir<br/><em>algo similar?</em>">Ready to build<br/><em>something similar?</em></h2>
+    <p data-en="Tell us your challenge. Moon designs the vision, Bull executes the technology." data-es="Cuéntanos tu reto. Moon diseña la visión, Bull ejecuta la tecnología.">Tell us your challenge. Moon designs the vision, Bull executes the technology.</p>
+  </div>
+  <div class="cta-actions reveal reveal-delay-1">
+    <a href="index.html#contact" class="btn-bull" data-en="Start a project →" data-es="Iniciar un proyecto →">Start a project →</a>
+    <a href="index.html#cases" class="btn-ghost" data-en="← All projects" data-es="← Todos los proyectos">← All projects</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">THE BULL <span>&</span> THE MOON</div>
+  <div class="footer-copy" data-en="© 2026 The Bull and The Moon. All rights reserved." data-es="© 2026 The Bull and The Moon. Todos los derechos reservados.">© 2026 The Bull and The Moon. All rights reserved.</div>
+  <div class="footer-status"><div class="status-dot"></div><span data-en="Available for projects" data-es="Disponibles para proyectos">Available for projects</span></div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.querySelectorAll('[data-en]').forEach(el => {
+      const t = el.getAttribute('data-' + lang);
+      if (!t) return;
+      if (el.tagName==='INPUT'||el.tagName==='TEXTAREA') el.placeholder = t;
+      else el.innerHTML = t;
+    });
+    ['btn-en','btn-es'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('active', el.id.includes(lang));
+    });
+    document.documentElement.lang = lang;
+  }
+  setLang('en');
+
+  const reveals = document.querySelectorAll('.reveal');
+  reveals.forEach(el => el.classList.add('animate-ready'));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  setTimeout(() => {
+    document.querySelectorAll('.progress-bar-fill').forEach(b => {
+      b.style.width = b.dataset.final || '0%';
+    });
+  }, 600);
+</script>
+</body>
+</html>
